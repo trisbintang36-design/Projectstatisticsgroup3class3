@@ -404,83 +404,92 @@ elif menu == menu_items[1]:
         st.markdown("</div>", unsafe_allow_html=True)
 
         # --- Analisis Hubungan Variabel ---
-        st.markdown(f"<div class='stSubHeader'>{tt['vra_title']}</div>", unsafe_allow_html=True)
-        st.markdown("<div class='stCard'>", unsafe_allow_html=True)
-        colX1, colX2 = st.columns(2)
-        with colX1:
-            x1 = st.selectbox(tt["vra_var1"], df.columns.tolist())
-        with colX2:
-            x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), index=1 if len(df.columns)>1 else 0)
-        tipe_x1 = tt["type_num"] if np.issubdtype(df[x1].dropna().dtype, np.number) else tt["type_cat"]
-        tipe_x2 = tt["type_num"] if np.issubdtype(df[x2].dropna().dtype, np.number) else tt["type_cat"]
-        st.markdown(f"<span class='stLabel'>{x1} → {tipe_x1}</span>", unsafe_allow_html=True)
-        st.markdown(f"<span class='stLabel'>{x2} → {tipe_x2}</span>", unsafe_allow_html=True)
+st.markdown(f"<div class='stSubHeader'>{tt['vra_title']}</div>", unsafe_allow_html=True)
+st.markdown("<div class='stCard'>", unsafe_allow_html=True)
+colX1, colX2 = st.columns(2)
+with colX1:
+    x1 = st.selectbox(tt["vra_var1"], df.columns.tolist())
+with colX2:
+    x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), index=1 if len(df.columns)>1 else 0)
 
-        if tipe_x1 == tt["type_cat"] and tipe_x2 == tt["type_cat"]:
-            st.info(tt["cat_info"])
-            cont_table = pd.crosstab(df[x1], df[x2])
-            st.subheader(tt["result_cat_cat"])
-            st.markdown("<div class='st-df'>", unsafe_allow_html=True)
-            st.dataframe(cont_table)
-            st.markdown("</div>", unsafe_allow_html=True)
-            chi2, p, dof, expected = chi2_contingency(cont_table)
-            st.write(tt["chi2"].format(chi2))
-            st.write(tt["pval"].format(p))
-            st.write(tt["dof"].format(dof))
-            st.markdown(tt["conclusion"])
-            if p < 0.05:
-                st.success(tt["conclude_sig"])
-            else:
-                st.warning(tt["conclude_nosig"])
+tipe_x1 = tt["type_num"] if np.issubdtype(df[x1].dropna().dtype, np.number) else tt["type_cat"]
+tipe_x2 = tt["type_num"] if np.issubdtype(df[x2].dropna().dtype, np.number) else tt["type_cat"]
 
-        elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
-            st.info(tt["num_info"])
-            method_options = [tt["pearson"], tt["spearman"]]
-            corr_method = st.selectbox(tt["corr_method_label"], method_options, key="corr_method")
-            mask = df[[x1, x2]].dropna()
-            data_x1 = mask[x1]
-            data_x2 = mask[x2]
-            if corr_method == tt["pearson"]:
-                coef, p = pearsonr(data_x1, data_x2)
-                method_name = tt["pearson"]
-            else:
-                coef, p = spearmanr(data_x1, data_x2)
-                method_name = tt["spearman"]
-            st.subheader(f"{tt['result_num_num']} ({method_name})")
-            st.markdown("<div class='st-df'>", unsafe_allow_html=True)
-            st.write(tt["corr_coef"].format(coef))
-            st.write(tt["corr_pval"].format(p))
-            st.markdown("</div>", unsafe_allow_html=True)
-            st.markdown(tt["conclusion"])
-            if p < 0.05:
-                st.success(tt["corr_conclude_sig"])
-            else:
-                st.warning(tt["corr_conclude_nosig"])
-        else:
-            st.warning(tt["mix_info"])
-            st.markdown("</div>", unsafe_allow_html=True)
-            if tipe_x1 == tt["type_str"] and tipe_x2 == tt["type_str"]:
-                st.info(tt["str_info"])
-            elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
-                 st.info(tt["num_info"])
+st.markdown(f"<span class='stLabel'>{x1} → {tipe_x1}</span>", unsafe_allow_html=True)
+st.markdown(f"<span class='stLabel'>{x2} → {tipe_x2}</span>", unsafe_allow_html=True)
 
-            # ==== AUTO CORRELATION ====
+# --- Kategori vs Kategori ---
+if tipe_x1 == tt["type_cat"] and tipe_x2 == tt["type_cat"]:
+    st.info(tt["cat_info"])
+    cont_table = pd.crosstab(df[x1], df[x2])
+    st.subheader(tt["result_cat_cat"])
+    st.markdown("<div class='st-df'>", unsafe_allow_html=True)
+    st.dataframe(cont_table)
+    st.markdown("</div>", unsafe_allow_html=True)
+    chi2, p, dof, expected = chi2_contingency(cont_table)
+    st.write(tt["chi2"].format(chi2))
+    st.write(tt["pval"].format(p))
+    st.write(tt["dof"].format(dof))
+    st.markdown(tt["conclusion"])
+    if p < 0.05:
+        st.success(tt["conclude_sig"])
+    else:
+        st.warning(tt["conclude_nosig"])
 
-            # drop NA
-            v1 = df[x1].dropna()
-            v2 = df[x2].dropna()
+# --- Numerik vs Numerik ---
+elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
+    st.info(tt["num_info"])
+    method_options = [tt["pearson"], tt["spearman"]]
+    corr_method = st.selectbox(tt["corr_method_label"], method_options, key="corr_method")
+    mask = df[[x1, x2]].dropna()
+    data_x1 = mask[x1]
+    data_x2 = mask[x2]
+    if corr_method == tt["pearson"]:
+        coef, pval = pearsonr(data_x1, data_x2)
+        method_name = tt["pearson"]
+    else:
+        coef, pval = spearmanr(data_x1, data_x2)
+        method_name = tt["spearman"]
+    st.subheader(f"{tt['result_num_num']} ({method_name})")
+    st.markdown("<div class='st-df'>", unsafe_allow_html=True)
+    st.write(tt["corr_coef"].format(coef))
+    st.write(tt["corr_pval"].format(pval))
+    st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown(f"{tt['conclusion']} (Metode: {method_name})")
+    if pval < 0.05:
+        st.success(f"{tt['corr_conclude_sig']} (Metode: {method_name})")
+    else:
+        st.warning(f"{tt['corr_conclude_nosig']} (Metode: {method_name})")
 
-            # uji normalitas
-            shapiro_p1 = shapiro(v1)[1]
-            shapiro_p2 = shapiro(v2)[1]
+# --- Lain-lain (campuran) ---
+else:
+    st.warning(tt["mix_info"])
+    st.markdown("</div>", unsafe_allow_html=True)
 
-            # pilih metode otomatis
-            if shapiro_p1 >= 0.05 and shapiro_p2 >= 0.05:
-                chosen = "pearson"
-                coef, pval = pearsonr(v1, v2)
-            else:
-                chosen = "spearman"
-                coef, pval = spearmanr(v1, v2)
+    # ==== AUTO CORRELATION ====
+    v1 = df[x1].dropna()
+    v2 = df[x2].dropna()
+    shapiro_p1 = shapiro(v1)[1]
+    shapiro_p2 = shapiro(v2)[1]
+
+    if shapiro_p1 >= 0.05 and shapiro_p2 >= 0.05:
+        chosen = "pearson"
+        coef, pval = pearsonr(v1, v2)
+    else:
+        chosen = "spearman"
+        coef, pval = spearmanr(v1, v2)
+
+    st.subheader(tt["result_num_num"])
+    st.write(f"Metode yang dipilih otomatis: *{chosen.upper()}*")
+    st.write(tt["corr_coef"].format(coef))
+    st.write(tt["corr_pval"].format(pval))
+
+    if pval < 0.05:
+        st.success(f"{tt['corr_conclude_sig']} (Metode: {chosen.upper()})")
+    else:
+        st.warning(f"{tt['corr_conclude_nosig']} (Metode: {chosen.upper()})")
+
+        
 
             # tampilkan hasil
             st.subheader(tt["result_num_num"])
@@ -496,6 +505,7 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
 
 
