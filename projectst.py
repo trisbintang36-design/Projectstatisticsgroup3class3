@@ -435,9 +435,10 @@ if uploaded_file:
     # Pilih variabel
     colX1, colX2 = st.columns(2)
     with colX1:
-        x1 = st.selectbox(tt["vra_var1"], df.columns.tolist())
+        x1 = st.selectbox(tt["vra_var1"], df.columns.tolist(), key="var1_selectbox")
     with colX2:
-        x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), index=1 if len(df.columns) > 1 else 0)
+        x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), key="var2_selectbox")
+
 
     tipe_x1 = tt["type_num"] if np.issubdtype(df[x1].dropna().dtype, np.number) else tt["type_cat"]
     tipe_x2 = tt["type_num"] if np.issubdtype(df[x2].dropna().dtype, np.number) else tt["type_cat"]
@@ -502,6 +503,7 @@ if uploaded_file:
     else:
         st.warning(tt["mix_info"])
         st.markdow
+
 
 
 
