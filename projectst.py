@@ -447,7 +447,7 @@ else:
     st.write(tt["corr_coef"].format(coef))
     st.write(tt["corr_pval"].format(pval))
 
-    if tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
+if tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
 
     if pval < 0.05:
         st.success(tt["corr_conclude_sig"])
@@ -457,11 +457,11 @@ else:
 else:
     st.info(tt["mix_info"])
 
-
 # --- ABOUT ---
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
 
 
