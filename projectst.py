@@ -327,3 +327,61 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+elif menu == menu_items[1]:  # Analisis Data / Data Analysis
+    st.markdown(f"<div class='stTitleMain'>{tt['analysis_title']}</div>", unsafe_allow_html=True)
+    
+    uploaded_file = st.file_uploader(tt['file'], type=['xlsx'])
+    
+    if uploaded_file:
+        df = pd.read_excel(uploaded_file)
+        st.markdown(f"<div class='stSubHeader'>{tt['preview']}</div>", unsafe_allow_html=True)
+        st.dataframe(df.head(10), use_container_width=True)
+        
+        # --- Descriptive Analysis ---
+        st.markdown(f"<div class='stSubHeader'>{tt['desc_title']}</div>", unsafe_allow_html=True)
+        numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
+        selected_cols = st.multiselect(tt['desc_cols'], numeric_cols)
+        
+        for col in selected_cols:
+            fig, ax = plt.subplots(1,2, figsize=(10,4))
+            ax[0].hist(df[col].dropna(), bins=15, color='#1976d2', edgecolor='black')
+            ax[0].set_title(f"{tt['hist']} {col}")
+            ax[1].boxplot(df[col].dropna())
+            ax[1].set_title(f"{tt['box']} {col}")
+            st.pyplot(fig)
+        
+        # --- Variable Relationship Analysis ---
+        st.markdown(f"<div class='stSubHeader'>{tt['vra_title']}</div>", unsafe_allow_html=True)
+        var1 = st.selectbox(tt['vra_var1'], df.columns)
+        var2 = st.selectbox(tt['vra_var2'], df.columns)
+        
+        type1 = 'num' if np.issubdtype(df[var1].dtype, np.number) else 'cat'
+        type2 = 'num' if np.issubdtype(df[var2].dtype, np.number) else 'cat'
+        
+        if type1 == 'cat' and type2 == 'cat':
+            st.markdown(tt['cat_info'])
+            ct = pd.crosstab(df[var1], df[var2])
+            st.markdown(f"**{tt['result_cat_cat']}**")
+            st.dataframe(ct)
+            chi2, p, dof, _ = chi2_contingency(ct)
+            st.write(tt['chi2'].format(chi2))
+            st.write(tt['pval'].format(p))
+            st.write(tt['dof'].format(dof))
+            conclusion = tt['conclude_sig'] if p<0.05 else tt['conclude_nosig']
+            st.write(f"{tt['conclusion']} {conclusion}")
+        
+        elif type1 == 'num' and type2 == 'num':
+            st.markdown(tt['num_info'])
+            coef, p = pearsonr(df[var1].dropna(), df[var2].dropna())
+            st.markdown(f"**{tt['result_num_num']}**")
+            st.write(tt['corr_coef'].format(coef))
+            st.write(tt['corr_pval'].format(p))
+            conclusion = tt['corr_conclude_sig'] if p<0.05 else tt['corr_conclude_nosig']
+            st.write(f"{tt['conclusion']} {conclusion}")
+        
+        else:
+            st.warning(tt['mix_info'])
+            
+    else:
+        st.info(tt['wait_file'])
+
