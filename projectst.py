@@ -28,6 +28,35 @@ st.markdown("""
     .st-df { background-color: #122033; border-radius: 10px; padding: 10px; border:2px solid #f7c325;
         font-family:'Share Tech Mono','Consolas','Roboto Mono',monospace;}
     hr {border-top:2.5px solid #f7c325; margin-bottom:16px;}
+    
+    /* Tambahan agar card dan teks readable di dark/light mode otomatis */
+    @media (prefers-color-scheme: dark) {
+        body, .stCard, .st-df {
+            background-color: #223a5e !important;
+            color: #FAFAFA !important;
+        }
+        .stLabel {
+            background-color: #1976d2 !important;
+            color: #FAFAFA !important;
+        }
+    }
+    @media (prefers-color-scheme: light) {
+        body, .stCard, .st-df {
+            background-color: #fffbe5 !important;
+            color: #223a5e !important;
+        }
+        .stLabel {
+            background-color: #ffde76 !important;
+            color: #223a5e !important;
+        }
+        .stTitleMain {
+            color: #223a5e !important;
+            text-shadow: 1px 2px 0px #eee,2px 4px 1.5px #f7c325aa !important;
+        }
+        .stSubHeader {
+            color: #1976d2 !important;
+        }
+    }
     </style>
     <link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono' rel='stylesheet'>
 """, unsafe_allow_html=True)
@@ -56,7 +85,7 @@ sidebar_menu = {
 menu_items = sidebar_menu.get(lang, sidebar_menu["Indonesia"])
 menu = st.sidebar.radio("Menu", menu_items)
 
-# --- Multilanguage dictionary ---
+# --- Multilanguage dictionary untuk semua label/instruksi dan output ---
 text = {
     "Indonesia": {
         "title": "Aplikasi Analisis Data Survei",
@@ -193,14 +222,13 @@ text = {
 }
 tt = text.get(lang, text["Indonesia"])
 
-# --- Profil Pembuat (diperbarui) ---
 profile_data = [
     {
         "name": {
-            "Indonesia": "Moh. Trisbintang",
-            "English": "Moh. Trisbintang",
-            "日本語": "モハメド・トリスビンタン",
-            "简体中文": "穆罕默德·特里斯宾唐"
+            "Indonesia": "Moh. Trisbintang A. Menu",
+            "English": "Moh. Trisbintang A. Menu",
+            "日本語": "Moh. Trisbintang A. Menu",
+            "简体中文": "Moh. Trisbintang A. Menu",
         },
         "img_file": "tris.jpeg",
         "sid": {
@@ -210,10 +238,10 @@ profile_data = [
             "简体中文": "SID：004202400102",
         },
         "role": {
-            "Indonesia": "Pembuat Aplikasi",
-            "English": "App Creator",
-            "日本語": "アプリ制作者",
-            "简体中文": "应用程序创建者",
+            "Indonesia": "⚙️ Distribusi: Survei, bersihkan data, dashboard Streamlit (menu & navigasi)",
+            "English": "⚙️ Role: Survey, data cleaning, Streamlit dashboard (menu & navigation)",
+            "日本語": "⚙️ 役割：調査、データクリーニング、Streamlitダッシュボード",
+            "简体中文": "⚙️ 职责：调查、数据清洗、Streamlit仪表板",
         },
         "origin": {
             "Indonesia": "Asal daerah: Gorontalo",
@@ -237,10 +265,10 @@ profile_data = [
             "简体中文": "SID：004202400034",
         },
         "role": {
-            "Indonesia": "Analisis dasar (histogram, boxplot), coding grafik Python, Streamlit bagian grafik",
-            "English": "Basic analysis (histogram, boxplot), Python chart coding, Streamlit graphics",
-            "日本語": "基本分析、Pythonグラフ作成、Streamlitグラフィック",
-            "简体中文": "基础分析、Python绘图、Streamlit图形部分",
+            "Indonesia": "🛠️ Distribusi: Analisis dasar (histogram, boxplot), coding grafik Python, Streamlit bagian grafik",
+            "English": "🛠️ Role: Basic analysis (histogram, boxplot), Python chart coding, Streamlit graphics",
+            "日本語": "🛠️ 役割：基本分析、Pythonグラフ作成、Streamlitグラフィック",
+            "简体中文": "🛠️ 职责：基础分析、Python绘图、Streamlit图形部分",
         },
         "origin": {
             "Indonesia": "Asal daerah: Bogor",
@@ -264,10 +292,10 @@ profile_data = [
             "简体中文": "SID：004202400076",
         },
         "role": {
-            "Indonesia": "Fokus laporan & bantu olah data",
-            "English": "Focused on report & assist data processing",
-            "日本語": "レポート担当・データ処理補助",
-            "简体中文": "专注报告并协助数据处理",
+            "Indonesia": "🔧 Distribusi: Fokus laporan & bantu olah data",
+            "English": "🔧 Role: Focused on report & assist data processing",
+            "日本語": "🔧 役割：レポート担当・データ処理補助",
+            "简体中文": "🔧 职责：专注报告并协助数据处理",
         },
         "origin": {
             "Indonesia": "Asal daerah: Cikampek",
@@ -291,10 +319,10 @@ profile_data = [
             "简体中文": "SID：004202400107",
         },
         "role": {
-            "Indonesia": "Analisis hubungan variabel, penjelasan pengaruh medsos ke mental, Streamlit bagian analisis",
-            "English": "Variable relationship analysis, explanation of social media effect on mental, Streamlit analysis",
-            "日本語": "変数関係分析、SNSの心理影響解説、Streamlit分析",
-            "简体中文": "变量关系分析，社交媒体对心理的影响，Streamlit分析部分",
+            "Indonesia": "⚡ Distribusi: Analisis hubungan variabel, penjelasan pengaruh medsos ke mental, Streamlit bagian analisis",
+            "English": "⚡ Role: Variable relationship analysis, explanation of social media effect on mental, Streamlit analysis",
+            "日本語": "⚡ 役割：変数関係分析、SNSの心理影響解説、Streamlit分析",
+            "简体中文": "⚡ 职责：变量关系分析，社交媒体对心理的影响，Streamlit分析部分",
         },
         "origin": {
             "Indonesia": "Asal daerah: Depok",
@@ -315,73 +343,98 @@ if menu == menu_items[0]:
             img_path = os.path.join(BASE_DIR, prof["img_file"])
             st.image(img_path, width=265)
         with cols[1]:
-            st.markdown(f"<div class='stProfileName'>{prof['name'][lang]}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='stProfileName'>{prof['name'][lang]} ⚙️</div>", unsafe_allow_html=True)
             st.markdown(f"<div class='stProfileRole'>{prof['role'][lang]}</div>", unsafe_allow_html=True)
-            st.markdown(f"<div class='stOrigin'>{prof['origin'][lang]}</div>", unsafe_allow_html=True)
-            st.markdown(f"<div class='stProfileRole'>{prof['sid'][lang]}</div>", unsafe_allow_html=True)
+            st.markdown(f"**{prof['sid'][lang]}**")
+            st.markdown(f"<span class='stOrigin'>{prof['origin'][lang]}</span>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("<hr>", unsafe_allow_html=True)
 
 elif menu == menu_items[1]:
     st.markdown(f"<div class='stTitleMain'>{tt['analysis_title']}</div>", unsafe_allow_html=True)
-    st.info(tt['wait_file'])
+    uploaded_file = st.file_uploader(tt["file"], type=["xlsx"])
+    if uploaded_file:
+        df = pd.read_excel(uploaded_file)
+        st.subheader(tt["preview"])
+        st.markdown("<div class='stCard'>", unsafe_allow_html=True)
+        st.dataframe(df)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        # --- Distribusi Data ---
+        st.markdown(f"<div class='stSubHeader'>{tt['desc_title']}</div>", unsafe_allow_html=True)
+        st.markdown("<div class='stCard'>", unsafe_allow_html=True)
+        numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
+        selected_desc_cols = st.multiselect(tt["desc_cols"], numeric_cols)
+        if selected_desc_cols:
+            desc = df[selected_desc_cols].describe().T
+            desc["skew"] = df[selected_desc_cols].skew()
+            desc["kurtosis"] = df[selected_desc_cols].kurtosis()
+            st.dataframe(desc)
+            for col in selected_desc_cols:
+                st.markdown(f"<span class='stLabel'>{tt['hist']}: {col}</span>", unsafe_allow_html=True)
+                fig1, ax1 = plt.subplots(figsize=(7,3))
+                ax1.hist(df[col].dropna(), bins=20, color="#1976d2", alpha=0.86)
+                ax1.set_facecolor("#223a5e")
+                ax1.set_title(f"{tt['hist']}: {col}", fontsize=13, fontweight="bold")
+                st.pyplot(fig1)
+                st.markdown(f"<span class='stLabel'>{tt['box']}: {col}</span>", unsafe_allow_html=True)
+                fig2, ax2 = plt.subplots(figsize=(7,3))
+                ax2.boxplot(df[col].dropna(), vert=False, patch_artist=True,
+                            boxprops=dict(facecolor='#f7c325', color='#1976d2'))
+                ax2.set_facecolor("#223a5e")
+                ax2.set_title(f"{tt['box']}: {col}", fontsize=13, fontweight="bold")
+                st.pyplot(fig2)
+        else:
+            st.info(tt["desc_cols"])
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        # --- Analisis Hubungan Variabel ---
+        st.markdown(f"<div class='stSubHeader'>{tt['vra_title']}</div>", unsafe_allow_html=True)
+        st.markdown("<div class='stCard'>", unsafe_allow_html=True)
+        colX1, colX2 = st.columns(2)
+        with colX1:
+            x1 = st.selectbox(tt["vra_var1"], df.columns.tolist())
+        with colX2:
+            x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), index=1 if len(df.columns)>1 else 0)
+        tipe_x1 = tt["type_num"] if np.issubdtype(df[x1].dropna().dtype, np.number) else tt["type_cat"]
+        tipe_x2 = tt["type_num"] if np.issubdtype(df[x2].dropna().dtype, np.number) else tt["type_cat"]
+        st.markdown(f"<span class='stLabel'>{x1} → {tipe_x1}</span>", unsafe_allow_html=True)
+        st.markdown(f"<span class='stLabel'>{x2} → {tipe_x2}</span>", unsafe_allow_html=True)
+        if tipe_x1 == tt["type_cat"] and tipe_x2 == tt["type_cat"]:
+            st.info(tt["cat_info"])
+            cont_table = pd.crosstab(df[x1], df[x2])
+            st.subheader(tt["result_cat_cat"])
+            st.markdown("<div class='st-df'>", unsafe_allow_html=True)
+            st.dataframe(cont_table)
+            st.markdown("</div>", unsafe_allow_html=True)
+            chi2, p, dof, expected = chi2_contingency(cont_table)
+            st.write(tt["chi2"].format(chi2))
+            st.write(tt["pval"].format(p))
+            st.write(tt["dof"].format(dof))
+            st.markdown(tt["conclusion"])
+            if p < 0.05:
+                st.success(tt["conclude_sig"])
+            else:
+                st.warning(tt["conclude_nosig"])
+        elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
+            st.info(tt["num_info"])
+            coef, p = pearsonr(df[x1].dropna(), df[x2].dropna())
+            st.subheader(tt["result_num_num"])
+            st.markdown("<div class='st-df'>", unsafe_allow_html=True)
+            st.write(tt["corr_coef"].format(coef))
+            st.write(tt["corr_pval"].format(p))
+            st.markdown("</div>", unsafe_allow_html=True)
+            st.markdown(tt["conclusion"])
+            if p < 0.05:
+                st.success(tt["corr_conclude_sig"])
+            else:
+                st.warning(tt["corr_conclude_nosig"])
+        else:
+            st.warning(tt["mix_info"])
+        st.markdown("</div>", unsafe_allow_html=True)
+    else:
+        st.info(tt["wait_file"])
+
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
-elif menu == menu_items[1]:  # Analisis Data / Data Analysis
-    st.markdown(f"<div class='stTitleMain'>{tt['analysis_title']}</div>", unsafe_allow_html=True)
-    
-    uploaded_file = st.file_uploader(tt['file'], type=['xlsx'])
-    
-    if uploaded_file:
-        df = pd.read_excel(uploaded_file)
-        st.markdown(f"<div class='stSubHeader'>{tt['preview']}</div>", unsafe_allow_html=True)
-        st.dataframe(df.head(10), use_container_width=True)
-        
-        # --- Descriptive Analysis ---
-        st.markdown(f"<div class='stSubHeader'>{tt['desc_title']}</div>", unsafe_allow_html=True)
-        numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
-        selected_cols = st.multiselect(tt['desc_cols'], numeric_cols)
-        
-        for col in selected_cols:
-            fig, ax = plt.subplots(1,2, figsize=(10,4))
-            ax[0].hist(df[col].dropna(), bins=15, color='#1976d2', edgecolor='black')
-            ax[0].set_title(f"{tt['hist']} {col}")
-            ax[1].boxplot(df[col].dropna())
-            ax[1].set_title(f"{tt['box']} {col}")
-            st.pyplot(fig)
-        
-        # --- Variable Relationship Analysis ---
-        st.markdown(f"<div class='stSubHeader'>{tt['vra_title']}</div>", unsafe_allow_html=True)
-        var1 = st.selectbox(tt['vra_var1'], df.columns)
-        var2 = st.selectbox(tt['vra_var2'], df.columns)
-        
-        type1 = 'num' if np.issubdtype(df[var1].dtype, np.number) else 'cat'
-        type2 = 'num' if np.issubdtype(df[var2].dtype, np.number) else 'cat'
-        
-        if type1 == 'cat' and type2 == 'cat':
-            st.markdown(tt['cat_info'])
-            ct = pd.crosstab(df[var1], df[var2])
-            st.markdown(f"**{tt['result_cat_cat']}**")
-            st.dataframe(ct)
-            chi2, p, dof, _ = chi2_contingency(ct)
-            st.write(tt['chi2'].format(chi2))
-            st.write(tt['pval'].format(p))
-            st.write(tt['dof'].format(dof))
-            conclusion = tt['conclude_sig'] if p<0.05 else tt['conclude_nosig']
-            st.write(f"{tt['conclusion']} {conclusion}")
-        
-        elif type1 == 'num' and type2 == 'num':
-            st.markdown(tt['num_info'])
-            coef, p = pearsonr(df[var1].dropna(), df[var2].dropna())
-            st.markdown(f"**{tt['result_num_num']}**")
-            st.write(tt['corr_coef'].format(coef))
-            st.write(tt['corr_pval'].format(p))
-            conclusion = tt['corr_conclude_sig'] if p<0.05 else tt['corr_conclude_nosig']
-            st.write(f"{tt['conclusion']} {conclusion}")
-        
-        else:
-            st.warning(tt['mix_info'])
-            
-    else:
-        st.info(tt['wait_file'])
-
