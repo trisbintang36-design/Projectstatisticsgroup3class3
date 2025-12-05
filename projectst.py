@@ -430,32 +430,41 @@ elif menu == menu_items[1]:
             else:
                 st.warning(tt["conclude_nosig"])
 
-        elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
-            st.info(tt["num_info"])
-            method_options = [tt["pearson"], tt["spearman"]]
-            corr_method = st.selectbox(tt["corr_method_label"], method_options, key="corr_method")
-            mask = df[[x1, x2]].dropna()
-            data_x1 = mask[x1]
-            data_x2 = mask[x2]
-            if corr_method == tt["pearson"]:
-                coef, p = pearsonr(data_x1, data_x2)
-                method_name = tt["pearson"]
-            else:
-                coef, p = spearmanr(data_x1, data_x2)
-                method_name = tt["spearman"]
-            st.subheader(f"{tt['result_num_num']} ({method_name})")
-            st.markdown("<div class='st-df'>", unsafe_allow_html=True)
-            st.write(tt["corr_coef"].format(coef))
-            st.write(tt["corr_pval"].format(p))
-            st.markdown("</div>", unsafe_allow_html=True)
-            st.markdown(tt["conclusion"])
-            if p < 0.05:
-    st.success(tt["corr_conclude_sig"])
-else:
-    st.warning(tt["corr_conclude_nosig"])
+elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
 
-# --- Tambahan: tampilkan metode korelasi yang digunakan ---
-st.info(f"Metode korelasi yang digunakan: **{method_name}**")
+    st.info(tt["num_info"])
+
+    method_options = [tt["pearson"], tt["spearman"]]
+    corr_method = st.selectbox(tt["corr_method_label"], method_options, key="corr_method")
+
+    mask = df[[x1, x2]].dropna()
+    data_x1 = mask[x1]
+    data_x2 = mask[x2]
+
+    # Hitung korelasi
+    if corr_method == tt["pearson"]:
+        coef, p = pearsonr(data_x1, data_x2)
+        method_name = tt["pearson"]
+    else:
+        coef, p = spearmanr(data_x1, data_x2)
+        method_name = tt["spearman"]
+
+    # Tampilkan hasil
+    st.subheader(f"{tt['result_num_num']} ({method_name})")
+    st.markdown("<div class='st-df'>", unsafe_allow_html=True)
+    st.write(tt["corr_coef"].format(coef))
+    st.write(tt["corr_pval"].format(p))
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    # Kesimpulan signifikan / tidak
+    st.markdown(tt["conclusion"])
+    if p < 0.05:
+        st.success(tt["corr_conclude_sig"])
+    else:
+        st.warning(tt["corr_conclude_nosig"])
+
+    # --- Tambahan (ini yang kamu minta): tampilkan metode yang digunakan ---
+    st.info(f"Metode korelasi yang digunakan: **{method_name}**")
 
         else:
             st.warning(tt["mix_info"])
