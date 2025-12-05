@@ -336,10 +336,38 @@ if menu == menu_items[0]:
             else:
                 st.warning(f"Gambar tidak ditemukan: {img_path}")
         
-       st.markdown(f"<div class='stProfileName'>{prof['name'][lang]} ⚙️</div>", unsafe_allow_html=True)
-st.markdown(f"<div class='stProfileRole'>⚙️ {prof['role'][lang]}</div>", unsafe_allow_html=True)
-st.markdown(f"**{prof['sid'][lang]}**")
-st.markdown(f"<span class='stOrigin'>{prof['origin'][lang]}</span>", unsafe_allow_html=True)
+      if menu == menu_items[0]:
+    st.markdown(f"<div class='stTitleMain'>{tt['profile_title']}</div>", unsafe_allow_html=True)
+
+    for prof in profile_data:
+        st.markdown("<div class='stCard'>", unsafe_allow_html=True)
+
+        cols = st.columns([1, 3])
+        with cols[0]:
+            img_path = os.path.join(BASE_DIR, prof["img_file"])
+            if os.path.exists(img_path):
+                st.image(img_path, width=260)
+            else:
+                st.warning(f"Gambar tidak ditemukan: {img_path}")
+
+        with cols[1]:
+            st.markdown(
+                f"<div class='stProfileName'>{prof['name'][lang]} ⚙️</div>",
+                unsafe_allow_html=True
+            )
+            st.markdown(
+                f"<div class='stProfileRole'>{prof['role'][lang]}</div>",
+                unsafe_allow_html=True
+            )
+            st.markdown(f"**{prof['sid'][lang]}**")
+            st.markdown(
+                f"<span class='stOrigin'>{prof['origin'][lang]}</span>",
+                unsafe_allow_html=True
+            )
+
+        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("<hr>", unsafe_allow_html=True)
+
 
         st.markdown("</div>", unsafe_allow_html=True)
         st.markdown("<hr>", unsafe_allow_html=True)
@@ -474,5 +502,6 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
 
