@@ -458,21 +458,21 @@ elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
 
     # Kesimpulan signifikan / tidak
     st.markdown(tt["conclusion"])
-    if p < 0.05:
-        st.success(tt["corr_conclude_sig"])
-    else:
-        st.warning(tt["corr_conclude_nosig"])
+if p < 0.05:
+    st.success(tt["corr_conclude_sig"])
+else:
+    st.warning(tt["corr_conclude_nosig"])
 
-    # --- Tambahan (ini yang kamu minta): tampilkan metode yang digunakan ---
-    st.info(f"Metode korelasi yang digunakan: **{method_name}**")
+# --- Tambahan (ini yang kamu minta): tampilkan metode yang digunakan ---
+st.info(f"Metode korelasi yang digunakan: **{method_name}**")
 
-    else:
-            st.warning(tt["mix_info"])
-        st.markdown("</div>", unsafe_allow_html=True)
-    else:
-        st.info(tt["wait_file"])
+# Ini adalah bagian 'mix variable' atau ketika file belum di-upload
+# Seharusnya tidak ada 'else:' lagi di tengah, harus sejajar dengan if sebelumnya
+if tipe_x1 != tt["type_num"] or tipe_x2 != tt["type_num"]:
+    st.warning(tt["mix_info"])
+    st.markdown("</div>", unsafe_allow_html=True)
+elif not uploaded_file:
+    st.info(tt["wait_file"])
 
-elif menu == menu_items[2]:
-    st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
-    st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
