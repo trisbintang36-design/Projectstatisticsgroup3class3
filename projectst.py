@@ -11,7 +11,7 @@ st.markdown("""
     <style>
     .stCard { 
         background-color: #223a5e; 
-        color: inherit; /* ← otomatis mengikuti tema laptop */
+        color: inherit; /* mengikuti tema laptop */
         padding: 18px 24px; 
         margin-bottom: 22px;
         border-radius: 16px; 
@@ -20,7 +20,8 @@ st.markdown("""
         font-family: 'Share Tech Mono', 'Consolas', 'Roboto Mono', monospace;
     }
     .stTitleMain { font-size: 2.4rem; font-family: 'Share Tech Mono','Consolas','Roboto Mono', monospace;
-        color: #22d2e9; margin-bottom: 1.4rem;font-weight:800; letter-spacing: 1px; text-shadow: 1px 2px 0px #222,2px 4px 1.5px #fff000aa; }
+        color: #22d2e9; margin-bottom: 1.4rem;font-weight:800; letter-spacing: 1px; 
+        text-shadow: 1px 2px 0px #222,2px 4px 1.5px #fff000aa; }
     .stSubHeader { font-size: 1.29rem; color: #f7c325; margin-top:1rem;
         font-family: 'Share Tech Mono', 'Consolas', 'Roboto Mono', monospace; font-weight:700;}
     .stProfileName { font-weight:600; font-size:1.16rem; margin-bottom:6px; color:#22d2e9;
@@ -63,43 +64,226 @@ sidebar_menu = {
 menu_items = sidebar_menu.get(lang, sidebar_menu["Indonesia"])
 menu = st.sidebar.radio("Menu", menu_items)
 
-# --- Multilanguage dictionary untuk semua label ---
-text = { ... (SEMUA DICTIONARY ANDA TETAP SAMA, TIDAK DIUBAH) ... }
+# --- Multilanguage dictionary ---
+text = {
+    "Indonesia": {
+        "title": "Aplikasi Analisis Data Survei",
+        "file": "Upload file Excel data survei",
+        "analysis_title": "Analisis Data",
+        "desc_title": "Distribusi Data",
+        "desc_cols": "Pilih variabel numerik untuk analisis deskriptif (histogram & boxplot)",
+        "hist": "Histogram",
+        "box": "Boxplot",
+        "preview": "Preview Data",
+        "vra_title": "Analisis Hubungan Variabel",
+        "vra_var1": "Pilih Variabel 1",
+        "vra_var2": "Pilih Variabel 2",
+        "type_num": "Numerik",
+        "type_cat": "Kategori",
+        "cat_info": "Variabel kategorik → menggunakan Chi-Square",
+        "num_info": "Variabel numerik → korelasi Pearson",
+        "result_cat_cat": "Tabel Kontingensi",
+        "result_num_num": "Korelasi Pearson",
+        "chi2": "Chi2 = {:.4f}",
+        "pval": "P-value = {:.4f}",
+        "dof": "Degrees of freedom = {}",
+        "conclusion": "Kesimpulan:",
+        "conclude_sig": "Terdapat hubungan signifikan antara variabel (p < 0.05)",
+        "conclude_nosig": "Tidak terdapat hubungan signifikan antara variabel (p >= 0.05)",
+        "corr_coef": "Koefisien = {:.4f}",
+        "corr_pval": "P-value = {:.4f}",
+        "corr_conclude_sig": "Terdapat hubungan signifikan (p < 0.05)",
+        "corr_conclude_nosig": "Tidak terdapat hubungan signifikan (p >= 0.05)",
+        "mix_info": "Kombinasi belum didukung untuk analisis otomatis.",
+        "wait_file": "Silakan upload file Excel data survei.",
+        "profile_title": "Profil Pembuat",
+        "about_title": "Tentang Aplikasi",
+        "about_content": "Aplikasi ini dibuat menggunakan Streamlit untuk menganalisis data survei (Excel), analisis deskriptif, dan analisis hubungan variabel otomatis."
+    },
+    "English": {
+        "title": "Survey Data Analysis App",
+        "file": "Upload survey Excel file",
+        "analysis_title": "Data Analysis",
+        "desc_title": "Data Distribution",
+        "desc_cols": "Select numeric variables for descriptive analysis (histogram & boxplot)",
+        "hist": "Histogram",
+        "box": "Boxplot",
+        "preview": "Data Preview",
+        "vra_title": "Variable Relationship Analysis",
+        "vra_var1": "Select Variable 1",
+        "vra_var2": "Select Variable 2",
+        "type_num": "Numeric",
+        "type_cat": "Categorical",
+        "cat_info": "Categorical variables → Chi-Square test",
+        "num_info": "Numeric variables → Pearson correlation",
+        "result_cat_cat": "Contingency Table",
+        "result_num_num": "Pearson Correlation",
+        "chi2": "Chi2 = {:.4f}",
+        "pval": "P-value = {:.4f}",
+        "dof": "Degrees of freedom = {}",
+        "conclusion": "Conclusion:",
+        "conclude_sig": "There is a significant relationship (p < 0.05)",
+        "conclude_nosig": "No significant relationship found (p >= 0.05)",
+        "corr_coef": "Coefficient = {:.4f}",
+        "corr_pval": "P-value = {:.4f}",
+        "corr_conclude_sig": "Significant correlation (p < 0.05)",
+        "corr_conclude_nosig": "No significant correlation (p >= 0.05)",
+        "mix_info": "Mixed variable types are not supported for automatic analysis.",
+        "wait_file": "Please upload a survey Excel file.",
+        "profile_title": "Author Profile",
+        "about_title": "About This App",
+        "about_content": "This app is built with Streamlit for survey data (Excel) analysis, descriptive analysis, and automatic relationship testing."
+    },
 
+    "日本語": {
+        "title": "アンケートデータ分析アプリ",
+        "file": "アンケート Excel ファイルをアップロード",
+        "analysis_title": "データ分析",
+        "desc_title": "データ分布",
+        "desc_cols": "数値変数を選択（ヒストグラムと箱ひげ図）",
+        "hist": "ヒストグラム",
+        "box": "箱ひげ図",
+        "preview": "データプレビュー",
+        "vra_title": "変数関係分析",
+        "vra_var1": "変数 1 を選択",
+        "vra_var2": "変数 2 を選択",
+        "type_num": "数値",
+        "type_cat": "カテゴリ",
+        "cat_info": "カテゴリ変数 → カイ二乗検定",
+        "num_info": "数値変数 → ピアソン相関",
+        "result_cat_cat": "クロス集計表",
+        "result_num_num": "ピアソン相関",
+        "chi2": "カイ二乗値 = {:.4f}",
+        "pval": "P値 = {:.4f}",
+        "dof": "自由度 = {}",
+        "conclusion": "結論：",
+        "conclude_sig": "有意な関係があります (p < 0.05)",
+        "conclude_nosig": "有意な関係はありません (p >= 0.05)",
+        "corr_coef": "相関係数 = {:.4f}",
+        "corr_pval": "P値 = {:.4f}",
+        "corr_conclude_sig": "有意な相関があります (p < 0.05)",
+        "corr_conclude_nosig": "有意な相関はありません (p >= 0.05)",
+        "mix_info": "この組み合わせの自動分析はサポートされていません。",
+        "wait_file": "アンケート Excel ファイルをアップロードしてください。",
+        "profile_title": "著者プロフィール",
+        "about_title": "アプリについて",
+        "about_content": "このアプリは Streamlit を使用して、アンケートデータの分布分析および変数関係分析を自動で行います。"
+    },
+
+    "简体中文": {
+        "title": "调查数据分析应用",
+        "file": "上传调查 Excel 文件",
+        "analysis_title": "数据分析",
+        "desc_title": "数据分布",
+        "desc_cols": "选择数值变量进行描述分析（直方图 & 箱线图）",
+        "hist": "直方图",
+        "box": "箱线图",
+        "preview": "数据预览",
+        "vra_title": "变量关系分析",
+        "vra_var1": "选择变量 1",
+        "vra_var2": "选择变量 2",
+        "type_num": "数值",
+        "type_cat": "类别",
+        "cat_info": "类别变量 → 卡方检验",
+        "num_info": "数值变量 → 皮尔逊相关",
+        "result_cat_cat": "列联表",
+        "result_num_num": "皮尔逊相关",
+        "chi2": "卡方值 = {:.4f}",
+        "pval": "P值 = {:.4f}",
+        "dof": "自由度 = {}",
+        "conclusion": "结论：",
+        "conclude_sig": "变量之间存在显著关系 (p < 0.05)",
+        "conclude_nosig": "变量之间不存在显著关系 (p >= 0.05)",
+        "corr_coef": "相关系数 = {:.4f}",
+        "corr_pval": "P值 = {:.4f}",
+        "corr_conclude_sig": "存在显著相关性 (p < 0.05)",
+        "corr_conclude_nosig": "不存在显著相关性 (p >= 0.05)",
+        "mix_info": "此组合暂不支持自动分析。",
+        "wait_file": "请上传调查 Excel 文件。",
+        "profile_title": "作者简介",
+        "about_title": "关于此应用",
+        "about_content": "此应用基于 Streamlit，可用于调查数据的分布分析及变量关系分析。"
+    }
+}
+
+# Ambil teks sesuai bahasa
 tt = text.get(lang, text["Indonesia"])
 
-profile_data = [ ... (DATA PROFIL TETAP SAMA, TIDAK DIUBAH) ... ]
+# ----------------- PROFILE DATA -----------------
+profile_data = [
+    {
+        "name": {
+            "Indonesia": "Muhammad Alif Rizaldy",
+            "English": "Muhammad Alif Rizaldy",
+            "日本語": "ムハンマド・アリフ・リザルディ",
+            "简体中文": "穆罕默德·阿利夫·里扎尔迪"
+        },
+        "role": {
+            "Indonesia": "Mahasiswa Statistika",
+            "English": "Statistics Student",
+            "日本語": "統計学の学生",
+            "简体中文": "统计学学生"
+        },
+        "sid": {
+            "Indonesia": "NIM: 123456789",
+            "English": "Student ID: 123456789",
+            "日本語": "学生番号: 123456789",
+            "简体中文": "学号: 123456789"
+        },
+        "origin": {
+            "Indonesia": "Asal: Indonesia",
+            "English": "Origin: Indonesia",
+            "日本語": "出身：インドネシア",
+            "简体中文": "来自：印度尼西亚"
+        },
+        "img_file": "foto1.png"
+    }
+]
+# ----------------- MAIN CONTENT -----------------
 
-# --- MAIN CONTENT ---
 if menu == menu_items[0]:
     st.markdown(f"<div class='stTitleMain'>{tt['profile_title']}</div>", unsafe_allow_html=True)
+
     for prof in profile_data:
         st.markdown("<div class='stCard'>", unsafe_allow_html=True)
-        cols = st.columns([1,3])
+        
+        cols = st.columns([1, 3])
         with cols[0]:
             img_path = os.path.join(BASE_DIR, prof["img_file"])
-            st.image(img_path, width=265)
+            if os.path.exists(img_path):
+                st.image(img_path, width=260)
+            else:
+                st.warning(f"Gambar tidak ditemukan: {img_path}")
+        
         with cols[1]:
             st.markdown(f"<div class='stProfileName'>{prof['name'][lang]} ⚙️</div>", unsafe_allow_html=True)
             st.markdown(f"<div class='stProfileRole'>{prof['role'][lang]}</div>", unsafe_allow_html=True)
             st.markdown(f"**{prof['sid'][lang]}**")
             st.markdown(f"<span class='stOrigin'>{prof['origin'][lang]}</span>", unsafe_allow_html=True)
+
         st.markdown("</div>", unsafe_allow_html=True)
         st.markdown("<hr>", unsafe_allow_html=True)
 
+
+# ----------------- ANALISIS DATA -----------------
 elif menu == menu_items[1]:
+
     st.markdown(f"<div class='stTitleMain'>{tt['analysis_title']}</div>", unsafe_allow_html=True)
+
     uploaded_file = st.file_uploader(tt["file"], type=["xlsx"])
+
     if uploaded_file:
         df = pd.read_excel(uploaded_file)
+
         st.subheader(tt["preview"])
         st.markdown("<div class='stCard'>", unsafe_allow_html=True)
         st.dataframe(df)
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # --- Distribusi Data ---
+        # ------------ DISTRIBUSI DATA ------------
         st.markdown(f"<div class='stSubHeader'>{tt['desc_title']}</div>", unsafe_allow_html=True)
         st.markdown("<div class='stCard'>", unsafe_allow_html=True)
+
         numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
         selected_desc_cols = st.multiselect(tt["desc_cols"], numeric_cols)
 
@@ -107,51 +291,64 @@ elif menu == menu_items[1]:
             desc = df[selected_desc_cols].describe().T
             desc["skew"] = df[selected_desc_cols].skew()
             desc["kurtosis"] = df[selected_desc_cols].kurtosis()
+
             st.dataframe(desc)
 
             for col in selected_desc_cols:
+                # Histogram
                 st.markdown(f"<span class='stLabel'>{tt['hist']}: {col}</span>", unsafe_allow_html=True)
-                fig1, ax1 = plt.subplots(figsize=(7,3))
-                ax1.hist(df[col].dropna(), bins=20, color="#1976d2", alpha=0.86)
+                fig1, ax1 = plt.subplots(figsize=(7, 3))
+                ax1.hist(df[col].dropna(), bins=20, color="#1976d2", alpha=0.85)
                 ax1.set_facecolor("#223a5e")
-                ax1.set_title(f"{tt['hist']}: {col}", fontsize=13, fontweight="bold")
+                ax1.set_title(f"{tt['hist']}: {col}", fontsize=12)
                 st.pyplot(fig1)
 
+                # Boxplot
                 st.markdown(f"<span class='stLabel'>{tt['box']}: {col}</span>", unsafe_allow_html=True)
-                fig2, ax2 = plt.subplots(figsize=(7,3))
+                fig2, ax2 = plt.subplots(figsize=(7, 3))
                 ax2.boxplot(df[col].dropna(), vert=False, patch_artist=True,
                             boxprops=dict(facecolor='#f7c325', color='#1976d2'))
                 ax2.set_facecolor("#223a5e")
-                ax2.set_title(f"{tt['box']}: {col}", fontsize=13, fontweight="bold")
+                ax2.set_title(f"{tt['box']}: {col}", fontsize=12)
                 st.pyplot(fig2)
+
         else:
             st.info(tt["desc_cols"])
+
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # --- Analisis Hubungan Variabel ---
+
+        # ------------ ANALISIS HUBUNGAN VARIABEL ------------
         st.markdown(f"<div class='stSubHeader'>{tt['vra_title']}</div>", unsafe_allow_html=True)
         st.markdown("<div class='stCard'>", unsafe_allow_html=True)
-        colX1, colX2 = st.columns(2)
-        with colX1:
-            x1 = st.selectbox(tt["vra_var1"], df.columns.tolist())
-        with colX2:
-            x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), index=1 if len(df.columns)>1 else 0)
 
+        colA, colB = st.columns(2)
+        with colA:
+            x1 = st.selectbox(tt["vra_var1"], df.columns.tolist())
+        with colB:
+            x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), index=1 if len(df.columns) > 1 else 0)
+
+        # DETEKSI TIPE
         tipe_x1 = tt["type_num"] if np.issubdtype(df[x1].dropna().dtype, np.number) else tt["type_cat"]
         tipe_x2 = tt["type_num"] if np.issubdtype(df[x2].dropna().dtype, np.number) else tt["type_cat"]
 
-        st.markdown(f"<span class='stLabel'>{x1} → {tipe_x1}</span>", unsafe_allow_html=True)
-        st.markdown(f"<span class='stLabel'>{x2} → {tipe_x2}</span>", unsafe_allow_html=True)
+        st.markdown(f"<span class='stLabel'>{x1}: {tipe_x1}</span>", unsafe_allow_html=True)
+        st.markdown(f"<span class='stLabel'>{x2}: {tipe_x2}</span>", unsafe_allow_html=True)
 
+        # ------------ KATEGORI vs KATEGORI (Chi-square) ------------
         if tipe_x1 == tt["type_cat"] and tipe_x2 == tt["type_cat"]:
+
             st.info(tt["cat_info"])
+
             cont_table = pd.crosstab(df[x1], df[x2])
+
             st.subheader(tt["result_cat_cat"])
             st.markdown("<div class='st-df'>", unsafe_allow_html=True)
             st.dataframe(cont_table)
             st.markdown("</div>", unsafe_allow_html=True)
 
             chi2, p, dof, expected = chi2_contingency(cont_table)
+
             st.write(tt["chi2"].format(chi2))
             st.write(tt["pval"].format(p))
             st.write(tt["dof"].format(dof))
@@ -162,9 +359,14 @@ elif menu == menu_items[1]:
             else:
                 st.warning(tt["conclude_nosig"])
 
+
+        # ------------ NUMERIK vs NUMERIK (Pearson Correlation) ------------
         elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
+
             st.info(tt["num_info"])
+
             coef, p = pearsonr(df[x1].dropna(), df[x2].dropna())
+
             st.subheader(tt["result_num_num"])
             st.markdown("<div class='st-df'>", unsafe_allow_html=True)
             st.write(tt["corr_coef"].format(coef))
@@ -176,6 +378,9 @@ elif menu == menu_items[1]:
                 st.success(tt["corr_conclude_sig"])
             else:
                 st.warning(tt["corr_conclude_nosig"])
+
+
+        # ------------ Kombinasi tidak didukung ------------
         else:
             st.warning(tt["mix_info"])
 
@@ -184,6 +389,8 @@ elif menu == menu_items[1]:
     else:
         st.info(tt["wait_file"])
 
+
+# ----------------- ABOUT -----------------
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
