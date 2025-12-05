@@ -461,10 +461,10 @@ elif menu == menu_items[1]:
     else:
         st.info(tt["wait_file"])
         if tipe_x1 == tt["type_str"] and tipe_x2 == tt["type_str"]:
-        st.info(tt["str_info"])  # blok if harus ada titik dua dan indentasi benar
+            st.info(tt["str_info"])  
 
         elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
-        st.info(tt["num_info"])  # indentasi harus sama dengan if
+                st.info(tt["num_info"]) 
 
 
             # ==== AUTO CORRELATION ====
@@ -500,5 +500,6 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
 
