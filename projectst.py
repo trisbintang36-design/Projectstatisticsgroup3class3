@@ -490,11 +490,8 @@ elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
 
     if pval < 0.05:
         st.success(tt["corr_conclude_sig"])
-    else:
+    elif:
         st.warning(tt["corr_conclude_nosig"])
-
-
-# --- Lain-lain (campuran) ---
     else:
         st.warning(tt["mix_info"])
         st.markdown("</div>", unsafe_allow_html=True)
@@ -538,6 +535,7 @@ elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
             st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
         
                 
+
 
 
 
