@@ -491,20 +491,21 @@ else:
 
         
 
-            # tampilkan hasil
-            st.subheader(tt["result_num_num"])
-            st.write(f"Metode yang dipilih otomatis: *{chosen.upper()}*")
-            st.write(tt["corr_coef"].format(coef))
-            st.write(tt["corr_pval"].format(pval))
+# tampilkan hasil
+st.subheader(tt["result_num_num"])
+st.write(f"Metode yang dipilih otomatis: *{chosen.upper()}*")
+st.write(tt["corr_coef"].format(coef))
+st.write(tt["corr_pval"].format(pval))
 
-            if pval < 0.05:
-                st.success(tt["corr_conclude_sig"])
-            else:
-                st.warning(tt["corr_conclude_nosig"])
+if pval < 0.05:
+    st.success(tt["corr_conclude_sig"])
+else:
+    st.warning(tt["corr_conclude_nosig"])
 
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
 
 
