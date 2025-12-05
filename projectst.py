@@ -345,149 +345,41 @@ profile_data = [
     }
 ]
 
-# --- MAIN CONTENT ---
-if menu == menu_items[0]:
-    st.markdown(f"<div class='stTitleMain'>{tt['profile_title']}</div>", unsafe_allow_html=True)
-    for prof in profile_data:
-        st.markdown("<div class='stCard'>", unsafe_allow_html=True)
-        cols = st.columns([1,3])
-        with cols[0]:
-            img_path = os.path.join(BASE_DIR, prof["img_file"])
-            st.image(img_path, width=265)
-        with cols[1]:
-            st.markdown(f"<div class='stProfileName'>{prof['name'][lang]} ⚙️</div>", unsafe_allow_html=True)
-            st.markdown(f"<div class='stProfileRole'>{prof['role'][lang]}</div>", unsafe_allow_html=True)
-            st.markdown(f"**{prof['sid'][lang]}**")
-            st.markdown(f"<span class='stOrigin'>{prof['origin'][lang]}</span>", unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-        st.markdown("<hr>", unsafe_allow_html=True)
-
-elif menu == menu_items[1]:
-    st.markdown(f"<div class='stTitleMain'>{tt['analysis_title']}</div>", unsafe_allow_html=True)
-    uploaded_file = st.file_uploader(tt["file"], type=["xlsx"])
-    if uploaded_file:
-        df = pd.read_excel(uploaded_file)
-        st.subheader(tt["preview"])
-        st.markdown("<div class='stCard'>", unsafe_allow_html=True)
-        st.dataframe(df)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        # --- Distribusi Data ---
-        st.markdown(f"<div class='stSubHeader'>{tt['desc_title']}</div>", unsafe_allow_html=True)
-        st.markdown("<div class='stCard'>", unsafe_allow_html=True)
-        numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
-        selected_desc_cols = st.multiselect(tt["desc_cols"], numeric_cols)
-        if selected_desc_cols:
-            desc = df[selected_desc_cols].describe().T
-            desc["skew"] = df[selected_desc_cols].skew()
-            desc["kurtosis"] = df[selected_desc_cols].kurtosis()
-            st.dataframe(desc)
-            for col in selected_desc_cols:
-                st.markdown(f"<span class='stLabel'>{tt['hist']}: {col}</span>", unsafe_allow_html=True)
-                fig1, ax1 = plt.subplots(figsize=(7,3))
-                ax1.hist(df[col].dropna(), bins=20, color="#1976d2", alpha=0.86)
-                ax1.set_facecolor("#223a5e")
-                ax1.set_title(f"{tt['hist']}: {col}", fontsize=13, fontweight="bold")
-                st.pyplot(fig1)
-                st.markdown(f"<span class='stLabel'>{tt['box']}: {col}</span>", unsafe_allow_html=True)
-                fig2, ax2 = plt.subplots(figsize=(7,3))
-                ax2.boxplot(df[col].dropna(), vert=False, patch_artist=True,
-                            boxprops=dict(facecolor='#f7c325', color='#1976d2'))
-                ax2.set_facecolor("#223a5e")
-                ax2.set_title(f"{tt['box']}: {col}", fontsize=13, fontweight="bold")
-                st.pyplot(fig2)
-        else:
-            st.info(tt["desc_cols"])
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        # --- Analisis Hubungan Variabel ---
-        st.markdown(f"<div class='stSubHeader'>{tt['vra_title']}</div>", unsafe_allow_html=True)
-        st.markdown("<div class='stCard'>", unsafe_allow_html=True)
-        colX1, colX2 = st.columns(2)
-        with colX1:
-            x1 = st.selectbox(tt["vra_var1"], df.columns.tolist())
-        with colX2:
-            x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), index=1 if len(df.columns)>1 else 0)
-        tipe_x1 = tt["type_num"] if np.issubdtype(df[x1].dropna().dtype, np.number) else tt["type_cat"]
-        tipe_x2 = tt["type_num"] if np.issubdtype(df[x2].dropna().dtype, np.number) else tt["type_cat"]
-        st.markdown(f"<span class='stLabel'>{x1} → {tipe_x1}</span>", unsafe_allow_html=True)
-        st.markdown(f"<span class='stLabel'>{x2} → {tipe_x2}</span>", unsafe_allow_html=True)
-
-        if tipe_x1 == tt["type_cat"] and tipe_x2 == tt["type_cat"]:
-            st.info(tt["cat_info"])
-            cont_table = pd.crosstab(df[x1], df[x2])
-            st.subheader(tt["result_cat_cat"])
-            st.markdown("<div class='st-df'>", unsafe_allow_html=True)
-            st.dataframe(cont_table)
-            st.markdown("</div>", unsafe_allow_html=True)
-            chi2, p, dof, expected = chi2_contingency(cont_table)
-            st.write(tt["chi2"].format(chi2))
-            st.write(tt["pval"].format(p))
-            st.write(tt["dof"].format(dof))
-            st.markdown(tt["conclusion"])
-            if p < 0.05:
-                st.success(tt["conclude_sig"])
-            else:
-                st.warning(tt["conclude_nosig"])
-
-# --- Analisis Hubungan Variabel ---
-if uploaded_file:
-    # Pilih variabel
-    colX1, colX2 = st.columns(2)
-    with colX1:
-        x1 = st.selectbox(tt["vra_var1"], df.columns.tolist(), key="var1_selectbox")
-    with colX2:
-        x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), key="var2_selectbox")
-
-
-    tipe_x1 = tt["type_num"] if np.issubdtype(df[x1].dropna().dtype, np.number) else tt["type_cat"]
-    tipe_x2 = tt["type_num"] if np.issubdtype(df[x2].dropna().dtype, np.number) else tt["type_cat"]
-
-    st.markdown(f"<span class='stLabel'>{x1} → {tipe_x1}</span>", unsafe_allow_html=True)
-    st.markdown(f"<span class='stLabel'>{x2} → {tipe_x2}</span>", unsafe_allow_html=True)
-
-    # --- Kategori x Kategori ---
-    if tipe_x1 == tt["type_cat"] and tipe_x2 == tt["type_cat"]:
-        st.info(tt["cat_info"])
-        cont_table = pd.crosstab(df[x1], df[x2])
-        st.subheader(tt["result_cat_cat"])
-        st.markdown("<div class='st-df'>", unsafe_allow_html=True)
-        st.dataframe(cont_table)
-        st.markdown("</div>", unsafe_allow_html=True)
-        chi2, p, dof, expected = chi2_contingency(cont_table)
-        st.write(tt["chi2"].format(chi2))
-        st.write(tt["pval"].format(p))
-        st.write(tt["dof"].format(dof))
-        st.markdown(tt["conclusion"])
-        if p < 0.05:
-            st.success(tt["conclude_sig"])
-        else:
-            st.warning(tt["conclude_nosig"])
-
 # --- Upload file terlebih dahulu ---
-uploaded_file = st.file_uploader("Upload file CSV atau Excel", type=["csv", "xlsx"])
+uploaded_file = st.file_uploader("Silakan upload file CSV atau Excel", type=["csv", "xlsx"])
 
 if uploaded_file:
+
     # --- Baca file ---
     if uploaded_file.name.endswith(".csv"):
         df = pd.read_csv(uploaded_file)
     else:
         df = pd.read_excel(uploaded_file)
 
-    # --- Pilih variabel dari dataframe ---
-    x1 = st.selectbox(tt["vra_var1"], df.columns.tolist(), key="var1")
-    x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), key="var2")
+    st.subheader("Preview Data")
+    st.markdown("<div class='stCard'>", unsafe_allow_html=True)
+    st.dataframe(df)
+    st.markdown("</div>", unsafe_allow_html=True)
 
-    # --- Pastikan tipe variabel sudah ditentukan ---
+    # --- Pilih variabel dari dataframe ---
+    colX1, colX2 = st.columns(2)
+    with colX1:
+        x1 = st.selectbox("Pilih Variabel 1", df.columns.tolist(), key="var1_selectbox")
+    with colX2:
+        x2 = st.selectbox("Pilih Variabel 2", df.columns.tolist(), key="var2_selectbox")
+
+    # --- Tentukan tipe variabel ---
     tipe_x1 = "num" if pd.api.types.is_numeric_dtype(df[x1]) else "cat"
     tipe_x2 = "num" if pd.api.types.is_numeric_dtype(df[x2]) else "cat"
 
-    # --- Numerik x Numerik ---
-    if tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
-        st.info(tt["num_info"])
+    st.markdown(f"<span class='stLabel'>{x1} → {tipe_x1}</span>", unsafe_allow_html=True)
+    st.markdown(f"<span class='stLabel'>{x2} → {tipe_x2}</span>", unsafe_allow_html=True)
 
-        method_options = [tt["pearson"], tt["spearman"]]
-        corr_method = st.selectbox(tt["corr_method_label"], method_options, key="corr_method")
+    # --- Analisis Numerik x Numerik ---
+    if tipe_x1 == "num" and tipe_x2 == "num":
+        st.info("Variabel numerik: pilih metode korelasi")
+        method_options = ["Pearson", "Spearman"]
+        corr_method = st.selectbox("Pilih metode korelasi", method_options, key="corr_method")
 
         mask = df[[x1, x2]].dropna()
         data_x1 = mask[x1]
@@ -497,37 +389,54 @@ if uploaded_file:
             st.warning("Data tidak cukup untuk menghitung korelasi (minimal 2 nilai).")
         else:
             # Hitung korelasi
-            if corr_method == tt["pearson"]:
+            if corr_method == "Pearson":
                 coef, p = pearsonr(data_x1, data_x2)
-                method_name = tt["pearson"]
             else:
                 coef, p = spearmanr(data_x1, data_x2)
-                method_name = tt["spearman"]
 
             # Tampilkan hasil
-            st.subheader(f"{tt['result_num_num']} ({method_name})")
+            st.subheader(f"Hasil Korelasi ({corr_method})")
             st.markdown("<div class='st-df'>", unsafe_allow_html=True)
-            st.write(tt["corr_coef"].format(coef))
-            st.write(tt["corr_pval"].format(p))
+            st.write(f"Koefisien Korelasi: {coef:.4f}")
+            st.write(f"P-value: {p:.4f}")
             st.markdown("</div>", unsafe_allow_html=True)
 
             # Kesimpulan signifikan / tidak
-            st.markdown(tt["conclusion"])
             if p < 0.05:
-                st.success(tt["corr_conclude_sig"])
+                st.success("Hasil signifikan (p < 0.05)")
             else:
-                st.warning(tt["corr_conclude_nosig"])
+                st.warning("Hasil tidak signifikan (p ≥ 0.05)")
 
-            # Tampilkan metode yang digunakan
-            st.info(f"Metode korelasi yang digunakan: **{method_name}**")
+            # Metode yang digunakan
+            st.info(f"Metode korelasi yang digunakan: **{corr_method}**")
 
-    # --- Variabel campuran / kombinasi belum didukung ---
-    elif tipe_x1 != tt["type_num"] or tipe_x2 != tt["type_num"]:
-        st.warning(tt["mix_info"])
+    # --- Analisis Kategori x Kategori ---
+    elif tipe_x1 == "cat" and tipe_x2 == "cat":
+        st.info("Variabel kategorik: menggunakan Chi-Square")
+        cont_table = pd.crosstab(df[x1], df[x2])
+        st.subheader("Tabel Kontingensi")
+        st.markdown("<div class='st-df'>", unsafe_allow_html=True)
+        st.dataframe(cont_table)
         st.markdown("</div>", unsafe_allow_html=True)
 
+        chi2, p, dof, expected = chi2_contingency(cont_table)
+        st.write(f"Chi2 = {chi2:.4f}")
+        st.write(f"P-value = {p:.4f}")
+        st.write(f"Degrees of freedom = {dof}")
+
+        if p < 0.05:
+            st.success("Terdapat hubungan signifikan antara variabel (p < 0.05)")
+        else:
+            st.warning("Tidak terdapat hubungan signifikan antara variabel (p ≥ 0.05)")
+
+    # --- Campuran / kombinasi variabel ---
+    else:
+        st.warning("Kombinasi variabel numerik dan kategorik saat ini belum didukung.")
+
 else:
-    st.info(tt["wait_file"])
+    st.info("Silakan upload file CSV atau Excel untuk memulai analisis.")
+
+
 
 
 
