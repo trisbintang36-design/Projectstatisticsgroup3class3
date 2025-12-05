@@ -213,30 +213,111 @@ tt = text.get(lang, text["Indonesia"])
 profile_data = [
     {
         "name": {
-            "Indonesia": "Muhammad Alif Rizaldy",
-            "English": "Muhammad Alif Rizaldy",
-            "日本語": "ムハンマド・アリフ・リザルディ",
-            "简体中文": "穆罕默德·阿利夫·里扎尔迪"
+            "Indonesia": "Moh. Trisbintang A. Menu",
+            "English": "Moh. Trisbintang A. Menu",
+            "日本語": "Moh. Trisbintang A. Menu",
+            "简体中文": "Moh. Trisbintang A. Menu",
+        },
+        "img_file": "tris.jpeg",
+        "sid": {
+            "Indonesia": "SID: 004202400102",
+            "English": "SID: 004202400102",
+            "日本語": "SID: 004202400102",
+            "简体中文": "SID：004202400102",
         },
         "role": {
-            "Indonesia": "Mahasiswa Statistika",
-            "English": "Statistics Student",
-            "日本語": "統計学の学生",
-            "简体中文": "统计学学生"
-        },
-        "sid": {
-            "Indonesia": "NIM: 123456789",
-            "English": "Student ID: 123456789",
-            "日本語": "学生番号: 123456789",
-            "简体中文": "学号: 123456789"
+            "Indonesia": "⚙️ Distribusi: Survei, bersihkan data, dashboard Streamlit (menu & navigasi)",
+            "English": "⚙️ Role: Survey, data cleaning, Streamlit dashboard (menu & navigation)",
+            "日本語": "⚙️ 役割：調査、データクリーニング、Streamlitダッシュボード",
+            "简体中文": "⚙️ 职责：调查、数据清洗、Streamlit仪表板",
         },
         "origin": {
-            "Indonesia": "Asal: Indonesia",
-            "English": "Origin: Indonesia",
-            "日本語": "出身：インドネシア",
-            "简体中文": "来自：印度尼西亚"
+            "Indonesia": "Asal daerah: Gorontalo",
+            "English": "Origin: Gorontalo",
+            "日本語": "出身地：ゴロンタロ",
+            "简体中文": "来自：Gorontalo",
+        }
+    },
+    {
+        "name": {
+            "Indonesia": "Dwi Anfia Putri Wulandari",
+            "English": "Dwi Anfia Putri Wulandari",
+            "日本語": "Dwi Anfia Putri Wulandari",
+            "简体中文": "Dwi Anfia Putri Wulandari",
         },
-        "img_file": "foto1.png"
+        "img_file": "fia.jpeg",
+        "sid": {
+            "Indonesia": "SID: 004202400034",
+            "English": "SID: 004202400034",
+            "日本語": "SID: 004202400034",
+            "简体中文": "SID：004202400034",
+        },
+        "role": {
+            "Indonesia": "🛠️ Distribusi: Analisis dasar (histogram, boxplot), coding grafik Python, Streamlit bagian grafik",
+            "English": "🛠️ Role: Basic analysis (histogram, boxplot), Python chart coding, Streamlit graphics",
+            "日本語": "🛠️ 役割：基本分析、Pythonグラフ作成、Streamlitグラフィック",
+            "简体中文": "🛠️ 职责：基础分析、Python绘图、Streamlit图形部分",
+        },
+        "origin": {
+            "Indonesia": "Asal daerah: Bogor",
+            "English": "Origin: Bogor",
+            "日本語": "出身地：ボゴール",
+            "简体中文": "来自：Bogor",
+        }
+    },
+    {
+        "name": {
+            "Indonesia": "Gina Sonia",
+            "English": "Gina Sonia",
+            "日本語": "Gina Sonia",
+            "简体中文": "Gina Sonia",
+        },
+        "img_file": "gina.jpeg",
+        "sid": {
+            "Indonesia": "SID: 004202400076",
+            "English": "SID: 004202400076",
+            "日本語": "SID: 004202400076",
+            "简体中文": "SID：004202400076",
+        },
+        "role": {
+            "Indonesia": "🔧 Distribusi: Fokus laporan & bantu olah data",
+            "English": "🔧 Role: Focused on report & assist data processing",
+            "日本語": "🔧 役割：レポート担当・データ処理補助",
+            "简体中文": "🔧 职责：专注报告并协助数据处理",
+        },
+        "origin": {
+            "Indonesia": "Asal daerah: Cikampek",
+            "English": "Origin: Cikampek",
+            "日本語": "出身地：チカンペック",
+            "简体中文": "来自：Cikampek",
+        }
+    },
+    {
+        "name": {
+            "Indonesia": "Ananda Fasya Wiratama Putri",
+            "English": "Ananda Fasya Wiratama Putri",
+            "日本語": "Ananda Fasya Wiratama Putri",
+            "简体中文": "Ananda Fasya Wiratama Putri",
+        },
+        "img_file": "fasya.jpeg",
+        "sid": {
+            "Indonesia": "SID: 004202400107",
+            "English": "SID: 004202400107",
+            "日本語": "SID: 004202400107",
+            "简体中文": "SID：004202400107",
+        },
+        "role": {
+            "Indonesia": "⚡ Distribusi: Analisis hubungan variabel, penjelasan pengaruh medsos ke mental, Streamlit bagian analisis",
+            "English": "⚡ Role: Variable relationship analysis, explanation of social media effect on mental, Streamlit analysis",
+            "日本語": "⚡ 役割：変数関係分析、SNSの心理影響解説、Streamlit分析",
+            "简体中文": "⚡ 职责：变量关系分析，社交媒体对心理的影响，Streamlit分析部分",
+        },
+        "origin": {
+            "Indonesia": "Asal daerah: Depok",
+            "English": "Origin: Depok",
+            "日本語": "出身地：デポック",
+            "简体中文": "来自：Depok",
+        }
     }
 ]
 # ----------------- MAIN CONTENT -----------------
@@ -394,3 +475,4 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
