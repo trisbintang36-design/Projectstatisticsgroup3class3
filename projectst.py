@@ -425,7 +425,6 @@ elif menu == menu_items[1]:
             st.write(tt["pval"].format(p))
             st.write(tt["dof"].format(dof))
             st.markdown(tt["conclusion"])
-             st.markdown(tt["conclusion"])
         if pval < 0.05:
             st.success(f"{tt['corr_conclude_sig']} (Metode: {corr_method})")
         else:
@@ -459,6 +458,7 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
 
 
