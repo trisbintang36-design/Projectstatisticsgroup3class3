@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from scipy.stats import chi2_contingency, pearsonr
+from scipy.stats import chi2_contingency, pearsonr, spearmanr
 import matplotlib.pyplot as plt
 import os
 
@@ -101,9 +101,12 @@ text = {
         "vra_var2": "Pilih Variabel 2",
         "type_num": "Numerik", "type_cat": "Kategori",
         "cat_info": "Variabel kategorik → menggunakan Chi-Square",
-        "num_info": "Variabel numerik → korelasi Pearson",
+        "num_info": "Variabel numerik → korelasi Pearson/Spearman",
+        "corr_method_label": "Pilih metode korelasi",
+        "pearson": "Pearson",
+        "spearman": "Spearman",
         "result_cat_cat": "Tabel Kontingensi",
-        "result_num_num": "Korelasi Pearson",
+        "result_num_num": "Korelasi",
         "chi2": "Chi2 = {:.4f}",
         "pval": "P-value = {:.4f}",
         "dof": "Degrees of freedom = {}",
@@ -134,9 +137,12 @@ text = {
         "vra_var2": "Select Variable 2",
         "type_num": "Numeric", "type_cat": "Category",
         "cat_info": "Categorical variables → Chi-Square test",
-        "num_info": "Numeric variables → Pearson correlation",
+        "num_info": "Numeric variables → Pearson/Spearman correlation",
+        "corr_method_label": "Select correlation method",
+        "pearson": "Pearson",
+        "spearman": "Spearman",
         "result_cat_cat": "Contingency Table",
-        "result_num_num": "Pearson Correlation",
+        "result_num_num": "Correlation",
         "chi2": "Chi2 = {:.4f}",
         "pval": "P-value = {:.4f}",
         "dof": "Degrees of freedom = {}",
@@ -167,9 +173,12 @@ text = {
         "vra_var2": "変数2を選択",
         "type_num": "数値型", "type_cat": "カテゴリ型",
         "cat_info": "カテゴリ型変数 → カイ二乗検定",
-        "num_info": "数値型変数 → ピアソン相関",
+        "num_info": "数値型変数 → ピアソン/スピアマン相関",
+        "corr_method_label": "相関係数の種類を選ぶ",
+        "pearson": "ピアソン",
+        "spearman": "スピアマン",
         "result_cat_cat": "クロス集計表",
-        "result_num_num": "ピアソン相関",
+        "result_num_num": "相関",
         "chi2": "カイ二乗 = {:.4f}",
         "pval": "p値 = {:.4f}",
         "dof": "自由度 = {}",
@@ -200,9 +209,12 @@ text = {
         "vra_var2": "选择变量2",
         "type_num": "数字型", "type_cat": "分类型",
         "cat_info": "分类型变量 → 卡方检验",
-        "num_info": "数字型变量 → 皮尔逊相关性",
+        "num_info": "数字型变量 → 皮尔逊/斯皮尔曼相关性",
+        "corr_method_label": "选择相关性方法",
+        "pearson": "皮尔逊",
+        "spearman": "斯皮尔曼",
         "result_cat_cat": "列联表",
-        "result_num_num": "皮尔逊相关性",
+        "result_num_num": "相关性",
         "chi2": "卡方值 = {:.4f}",
         "pval": "显著性水平（p值）= {:.4f}",
         "dof": "自由度 = {}",
@@ -400,6 +412,7 @@ elif menu == menu_items[1]:
         tipe_x2 = tt["type_num"] if np.issubdtype(df[x2].dropna().dtype, np.number) else tt["type_cat"]
         st.markdown(f"<span class='stLabel'>{x1} → {tipe_x1}</span>", unsafe_allow_html=True)
         st.markdown(f"<span class='stLabel'>{x2} → {tipe_x2}</span>", unsafe_allow_html=True)
+
         if tipe_x1 == tt["type_cat"] and tipe_x2 == tt["type_cat"]:
             st.info(tt["cat_info"])
             cont_table = pd.crosstab(df[x1], df[x2])
@@ -416,10 +429,21 @@ elif menu == menu_items[1]:
                 st.success(tt["conclude_sig"])
             else:
                 st.warning(tt["conclude_nosig"])
+
         elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
             st.info(tt["num_info"])
-            coef, p = pearsonr(df[x1].dropna(), df[x2].dropna())
-            st.subheader(tt["result_num_num"])
+            method_options = [tt["pearson"], tt["spearman"]]
+            corr_method = st.selectbox(tt["corr_method_label"], method_options, key="corr_method")
+            mask = df[[x1, x2]].dropna()
+            data_x1 = mask[x1]
+            data_x2 = mask[x2]
+            if corr_method == tt["pearson"]:
+                coef, p = pearsonr(data_x1, data_x2)
+                method_name = tt["pearson"]
+            else:
+                coef, p = spearmanr(data_x1, data_x2)
+                method_name = tt["spearman"]
+            st.subheader(f"{tt['result_num_num']} ({method_name})")
             st.markdown("<div class='st-df'>", unsafe_allow_html=True)
             st.write(tt["corr_coef"].format(coef))
             st.write(tt["corr_pval"].format(p))
