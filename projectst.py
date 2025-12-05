@@ -466,7 +466,7 @@ elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
     # --- Tambahan (ini yang kamu minta): tampilkan metode yang digunakan ---
     st.info(f"Metode korelasi yang digunakan: **{method_name}**")
 
-        else:
+    else:
             st.warning(tt["mix_info"])
         st.markdown("</div>", unsafe_allow_html=True)
     else:
@@ -475,3 +475,4 @@ elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
