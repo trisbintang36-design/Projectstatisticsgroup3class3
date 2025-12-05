@@ -430,49 +430,79 @@ elif menu == menu_items[1]:
             else:
                 st.warning(tt["conclude_nosig"])
 
-elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
-    st.info(tt["num_info"])
+# --- Analisis Hubungan Variabel ---
+if uploaded_file:
+    # Pilih variabel
+    colX1, colX2 = st.columns(2)
+    with colX1:
+        x1 = st.selectbox(tt["vra_var1"], df.columns.tolist())
+    with colX2:
+        x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), index=1 if len(df.columns) > 1 else 0)
 
-    method_options = [tt["pearson"], tt["spearman"]]
-    corr_method = st.selectbox(tt["corr_method_label"], method_options, key="corr_method")
+    tipe_x1 = tt["type_num"] if np.issubdtype(df[x1].dropna().dtype, np.number) else tt["type_cat"]
+    tipe_x2 = tt["type_num"] if np.issubdtype(df[x2].dropna().dtype, np.number) else tt["type_cat"]
 
-    mask = df[[x1, x2]].dropna()
-    data_x1 = mask[x1]
-    data_x2 = mask[x2]
+    st.markdown(f"<span class='stLabel'>{x1} → {tipe_x1}</span>", unsafe_allow_html=True)
+    st.markdown(f"<span class='stLabel'>{x2} → {tipe_x2}</span>", unsafe_allow_html=True)
 
-    # Hitung korelasi
-    if corr_method == tt["pearson"]:
-        coef, p = pearsonr(data_x1, data_x2)
-        method_name = tt["pearson"]
+    # --- Kategori x Kategori ---
+    if tipe_x1 == tt["type_cat"] and tipe_x2 == tt["type_cat"]:
+        st.info(tt["cat_info"])
+        cont_table = pd.crosstab(df[x1], df[x2])
+        st.subheader(tt["result_cat_cat"])
+        st.markdown("<div class='st-df'>", unsafe_allow_html=True)
+        st.dataframe(cont_table)
+        st.markdown("</div>", unsafe_allow_html=True)
+        chi2, p, dof, expected = chi2_contingency(cont_table)
+        st.write(tt["chi2"].format(chi2))
+        st.write(tt["pval"].format(p))
+        st.write(tt["dof"].format(dof))
+        st.markdown(tt["conclusion"])
+        if p < 0.05:
+            st.success(tt["conclude_sig"])
+        else:
+            st.warning(tt["conclude_nosig"])
+
+    # --- Numerik x Numerik ---
+    elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
+        st.info(tt["num_info"])
+        method_options = [tt["pearson"], tt["spearman"]]
+        corr_method = st.selectbox(tt["corr_method_label"], method_options, key="corr_method")
+
+        mask = df[[x1, x2]].dropna()
+        data_x1 = mask[x1]
+        data_x2 = mask[x2]
+
+        # Hitung korelasi
+        if corr_method == tt["pearson"]:
+            coef, p = pearsonr(data_x1, data_x2)
+            method_name = tt["pearson"]
+        else:
+            coef, p = spearmanr(data_x1, data_x2)
+            method_name = tt["spearman"]
+
+        # Tampilkan hasil
+        st.subheader(f"{tt['result_num_num']} ({method_name})")
+        st.markdown("<div class='st-df'>", unsafe_allow_html=True)
+        st.write(tt["corr_coef"].format(coef))
+        st.write(tt["corr_pval"].format(p))
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        # Kesimpulan signifikan / tidak
+        st.markdown(tt["conclusion"])
+        if p < 0.05:
+            st.success(tt["corr_conclude_sig"])
+        else:
+            st.warning(tt["corr_conclude_nosig"])
+
+        # Tambahan: tampilkan metode yang digunakan
+        st.info(f"Metode korelasi yang digunakan: **{method_name}**")
+
+    # --- Campuran / kombinasi belum didukung ---
     else:
-        coef, p = spearmanr(data_x1, data_x2)
-        method_name = tt["spearman"]
+        st.warning(tt["mix_info"])
+        st.markdow
 
-    # Tampilkan hasil
-    st.subheader(f"{tt['result_num_num']} ({method_name})")
-    st.markdown("<div class='st-df'>", unsafe_allow_html=True)
-    st.write(tt["corr_coef"].format(coef))
-    st.write(tt["corr_pval"].format(p))
-    st.markdown("</div>", unsafe_allow_html=True)
-
-    # Kesimpulan signifikan / tidak
-    st.markdown(tt["conclusion"])
-    if p < 0.05:
-        st.success(tt["corr_conclude_sig"])
-    else:
-        st.warning(tt["corr_conclude_nosig"])
-
-    # Tambahan: tampilkan metode yang digunakan
-    st.info(f"Metode korelasi yang digunakan: **{method_name}**")
-
-# Jika salah satu atau kedua variabel bukan numerik → campuran
-elif tipe_x1 != tt["type_num"] or tipe_x2 != tt["type_num"]:
-    st.warning(tt["mix_info"])
-    st.markdown("</div>", unsafe_allow_html=True)
-
-# Jika file belum di-upload
-elif not uploaded_file:
-    st.info(tt["wait_file"])
 
 
 
