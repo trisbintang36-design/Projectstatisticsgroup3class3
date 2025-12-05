@@ -497,15 +497,26 @@ st.write(f"Metode yang dipilih otomatis: *{chosen.upper()}*")
 st.write(tt["corr_coef"].format(coef))
 st.write(tt["corr_pval"].format(pval))
 
+# --- Bagian analisis korelasi ---
 if pval < 0.05:
-    st.success(tt["corr_conclude_sig"])
+    st.success(f"{tt['corr_conclude_sig']} ({chosen.capitalize()})")
 else:
-    st.warning(tt["corr_conclude_nosig"])
+    st.warning(f"{tt['corr_conclude_nosig']} ({chosen.capitalize()})")
 
-# Menu About
+# --- Bagian menu ---
+if menu == menu_items[0]:
+    # Tampilkan profil
+    st.markdown(f"<div class='stTitleMain'>{tt['profile_title']}</div>", unsafe_allow_html=True)
+    # ... kode profil ...
+elif menu == menu_items[1]:
+    # Tampilkan analisis data
+    st.markdown(f"<div class='stTitleMain'>{tt['analysis_title']}</div>", unsafe_allow_html=True)
+    # ... kode analisis ...
 elif menu == menu_items[2]:
+    # Tampilkan About
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
 
 
