@@ -425,12 +425,14 @@ elif menu == menu_items[1]:
             st.write(tt["pval"].format(p))
             st.write(tt["dof"].format(dof))
             st.markdown(tt["conclusion"])
-            if p < 0.05:
-                st.success(tt["conclude_sig"])
-            else:
-                st.warning(tt["conclude_nosig"])
-            elif : tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
-                st.info(tt["num_info"])
+             st.markdown(tt["conclusion"])
+        if pval < 0.05:
+            st.success(f"{tt['corr_conclude_sig']} (Metode: {corr_method})")
+        else:
+            st.warning(f"{tt['corr_conclude_nosig']} (Metode: {corr_method})")  
+        else:
+        # --- Data campuran (kategori vs numerik) ---
+        st.warning(tt["mix_info"])
 
             method = st.radio(tt["corr_method_label"],
                               [tt["pearson"], tt["spearman"]],
@@ -457,5 +459,6 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
 
