@@ -464,62 +464,72 @@ if uploaded_file:
         else:
             st.warning(tt["conclude_nosig"])
 
-# --- Pilih variabel dari dataframe ---
-x1 = st.selectbox(tt["vra_var1"], df.columns.tolist(), key="var1")
-x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), key="var2")
+# --- Upload file terlebih dahulu ---
+uploaded_file = st.file_uploader(tt["upload_label"], type=["csv", "xlsx"])
 
-# --- Pastikan tipe variabel sudah ditentukan ---
-tipe_x1 = "num" if pd.api.types.is_numeric_dtype(df[x1]) else "cat"
-tipe_x2 = "num" if pd.api.types.is_numeric_dtype(df[x2]) else "cat"
-
-# --- Numerik x Numerik ---
-if tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
-    st.info(tt["num_info"])
-
-    method_options = [tt["pearson"], tt["spearman"]]
-    corr_method = st.selectbox(tt["corr_method_label"], method_options, key="corr_method")
-
-    mask = df[[x1, x2]].dropna()
-    data_x1 = mask[x1]
-    data_x2 = mask[x2]
-
-    # --- Cek apakah data cukup untuk korelasi ---
-    if len(data_x1) < 2 or len(data_x2) < 2:
-        st.warning("Data tidak cukup untuk menghitung korelasi (minimal 2 nilai).")
+if uploaded_file:
+    # --- Baca file ---
+    if uploaded_file.name.endswith(".csv"):
+        df = pd.read_csv(uploaded_file)
     else:
-        # Hitung korelasi
-        if corr_method == tt["pearson"]:
-            coef, p = pearsonr(data_x1, data_x2)
-            method_name = tt["pearson"]
-        else:
-            coef, p = spearmanr(data_x1, data_x2)
-            method_name = tt["spearman"]
+        df = pd.read_excel(uploaded_file)
 
-        # Tampilkan hasil
-        st.subheader(f"{tt['result_num_num']} ({method_name})")
-        st.markdown("<div class='st-df'>", unsafe_allow_html=True)
-        st.write(tt["corr_coef"].format(coef))
-        st.write(tt["corr_pval"].format(p))
+    # --- Pilih variabel dari dataframe ---
+    x1 = st.selectbox(tt["vra_var1"], df.columns.tolist(), key="var1")
+    x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), key="var2")
+
+    # --- Pastikan tipe variabel sudah ditentukan ---
+    tipe_x1 = "num" if pd.api.types.is_numeric_dtype(df[x1]) else "cat"
+    tipe_x2 = "num" if pd.api.types.is_numeric_dtype(df[x2]) else "cat"
+
+    # --- Numerik x Numerik ---
+    if tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
+        st.info(tt["num_info"])
+
+        method_options = [tt["pearson"], tt["spearman"]]
+        corr_method = st.selectbox(tt["corr_method_label"], method_options, key="corr_method")
+
+        mask = df[[x1, x2]].dropna()
+        data_x1 = mask[x1]
+        data_x2 = mask[x2]
+
+        if len(data_x1) < 2 or len(data_x2) < 2:
+            st.warning("Data tidak cukup untuk menghitung korelasi (minimal 2 nilai).")
+        else:
+            # Hitung korelasi
+            if corr_method == tt["pearson"]:
+                coef, p = pearsonr(data_x1, data_x2)
+                method_name = tt["pearson"]
+            else:
+                coef, p = spearmanr(data_x1, data_x2)
+                method_name = tt["spearman"]
+
+            # Tampilkan hasil
+            st.subheader(f"{tt['result_num_num']} ({method_name})")
+            st.markdown("<div class='st-df'>", unsafe_allow_html=True)
+            st.write(tt["corr_coef"].format(coef))
+            st.write(tt["corr_pval"].format(p))
+            st.markdown("</div>", unsafe_allow_html=True)
+
+            # Kesimpulan signifikan / tidak
+            st.markdown(tt["conclusion"])
+            if p < 0.05:
+                st.success(tt["corr_conclude_sig"])
+            else:
+                st.warning(tt["corr_conclude_nosig"])
+
+            # Tampilkan metode yang digunakan
+            st.info(f"Metode korelasi yang digunakan: **{method_name}**")
+
+    # --- Variabel campuran / kombinasi belum didukung ---
+    elif tipe_x1 != tt["type_num"] or tipe_x2 != tt["type_num"]:
+        st.warning(tt["mix_info"])
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Kesimpulan signifikan / tidak
-        st.markdown(tt["conclusion"])
-        if p < 0.05:
-            st.success(tt["corr_conclude_sig"])
-        else:
-            st.warning(tt["corr_conclude_nosig"])
-
-        # Tampilkan metode yang digunakan
-        st.info(f"Metode korelasi yang digunakan: **{method_name}**")
-
-# --- Campuran / kombinasi variabel belum didukung ---
-elif tipe_x1 != tt["type_num"] or tipe_x2 != tt["type_num"]:
-    st.warning(tt["mix_info"])
-    st.markdown("</div>", unsafe_allow_html=True)
-
-# --- File belum di-upload ---
-elif not uploaded_file:
+else:
     st.info(tt["wait_file"])
+
+
 
 
 
