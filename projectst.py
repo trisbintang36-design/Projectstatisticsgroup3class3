@@ -499,11 +499,15 @@ st.write(tt["corr_pval"].format(pval))
 
 if pval < 0.05:
     st.success(tt["corr_conclude_sig"])
-elif:
+else:
     st.warning(tt["corr_conclude_nosig"])
-else menu == menu_items[2]:
+
+# Menu About
+elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
+
 
 
 
