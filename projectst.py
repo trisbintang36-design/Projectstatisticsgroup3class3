@@ -465,7 +465,7 @@ if uploaded_file:
             st.warning(tt["conclude_nosig"])
 
 # --- Upload file terlebih dahulu ---
-uploaded_file = st.file_uploader(tt["upload_label"], type=["csv", "xlsx"])
+uploaded_file = st.file_uploader("Upload file CSV atau Excel", type=["csv", "xlsx"])
 
 if uploaded_file:
     # --- Baca file ---
@@ -528,6 +528,7 @@ if uploaded_file:
 
 else:
     st.info(tt["wait_file"])
+
 
 
 
