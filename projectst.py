@@ -458,12 +458,7 @@ elif menu == menu_items[1]:
         st.markdown("</div>", unsafe_allow_html=True)
     else:
         st.info(tt["wait_file"])
-
-elif menu == menu_items[2]:
-    st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
-    st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
-
-elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
+        elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
             st.info(tt["num_info"])
 
             # ==== AUTO CORRELATION ====
@@ -495,3 +490,7 @@ elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
                 st.success(tt["corr_conclude_sig"])
             else:
                 st.warning(tt["corr_conclude_nosig"])
+
+elif menu == menu_items[2]:
+    st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
