@@ -431,7 +431,6 @@ elif menu == menu_items[1]:
                 st.warning(tt["conclude_nosig"])
 
 elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
-
     st.info(tt["num_info"])
 
     method_options = [tt["pearson"], tt["spearman"]]
@@ -458,21 +457,23 @@ elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
 
     # Kesimpulan signifikan / tidak
     st.markdown(tt["conclusion"])
-if p < 0.05:
-    st.success(tt["corr_conclude_sig"])
-else:
-    st.warning(tt["corr_conclude_nosig"])
+    if p < 0.05:
+        st.success(tt["corr_conclude_sig"])
+    else:
+        st.warning(tt["corr_conclude_nosig"])
 
-# --- Tambahan (ini yang kamu minta): tampilkan metode yang digunakan ---
-st.info(f"Metode korelasi yang digunakan: **{method_name}**")
+    # Tambahan: tampilkan metode yang digunakan
+    st.info(f"Metode korelasi yang digunakan: **{method_name}**")
 
-# Ini adalah bagian 'mix variable' atau ketika file belum di-upload
-# Seharusnya tidak ada 'else:' lagi di tengah, harus sejajar dengan if sebelumnya
-if tipe_x1 != tt["type_num"] or tipe_x2 != tt["type_num"]:
+# Jika salah satu atau kedua variabel bukan numerik → campuran
+elif tipe_x1 != tt["type_num"] or tipe_x2 != tt["type_num"]:
     st.warning(tt["mix_info"])
     st.markdown("</div>", unsafe_allow_html=True)
+
+# Jika file belum di-upload
 elif not uploaded_file:
     st.info(tt["wait_file"])
+
 
 
 
