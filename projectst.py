@@ -464,17 +464,12 @@ if uploaded_file:
         else:
             st.warning(tt["conclude_nosig"])
 
-    # --- Numerik x Numerik ---
-    elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
-        st.info(tt["num_info"])
-        method_options = [tt["pearson"], tt["spearman"]]
-        corr_method = st.selectbox(tt["corr_method_label"], method_options, key="corr_method")
+# --- Pastikan tipe variabel sudah ditentukan ---
+tipe_x1 = "num" if pd.api.types.is_numeric_dtype(df[x1]) else "cat"
+tipe_x2 = "num" if pd.api.types.is_numeric_dtype(df[x2]) else "cat"
 
-        mask = df[[x1, x2]].dropna()
-        data_x1 = mask[x1]
-        data_x2 = mask[x2]
-
-elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
+# --- Numerik x Numerik ---
+if tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
     st.info(tt["num_info"])
 
     method_options = [tt["pearson"], tt["spearman"]]
@@ -510,7 +505,7 @@ elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
         else:
             st.warning(tt["corr_conclude_nosig"])
 
-        # Tambahan: tampilkan metode yang digunakan
+        # Tampilkan metode yang digunakan
         st.info(f"Metode korelasi yang digunakan: **{method_name}**")
 
 # --- Campuran / kombinasi variabel belum didukung ---
@@ -521,6 +516,7 @@ elif tipe_x1 != tt["type_num"] or tipe_x2 != tt["type_num"]:
 # --- File belum di-upload ---
 elif not uploaded_file:
     st.info(tt["wait_file"])
+
 
 
 
