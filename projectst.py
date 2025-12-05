@@ -432,32 +432,32 @@ if tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
         st.warning(f"{tt['corr_conclude_nosig']} (Metode: {corr_method})")
 else:
     st.warning(tt["mix_info"])
+    method = st.radio(tt["corr_method_label"],
+                      [tt["pearson"], tt["spearman"]],
+                      horizontal=True)
 
-            method = st.radio(tt["corr_method_label"],
-                              [tt["pearson"], tt["spearman"]],
-                              horizontal=True)
-        
-            clean_df = df[[x1, x2]].dropna()
-        
-            if method == tt["pearson"]:
-                coef, pval = pearsonr(clean_df[x1], clean_df[x2])
-            else:
-                coef, pval = spearmanr(clean_df[x1], clean_df[x2])
-        
-            st.subheader(tt["result_num_num"])
-            st.write(tt["corr_coef"].format(coef))
-            st.write(tt["corr_pval"].format(pval))
-        
-            if pval < 0.05:
-                st.success(tt["corr_conclude_sig"])
-            else:
-                st.warning(tt["corr_conclude_nosig"])
-            else:
-                st.info(tt["mix_info"])
+    clean_df = df[[x1, x2]].dropna()
+
+    if method == tt["pearson"]:
+        coef, pval = pearsonr(clean_df[x1], clean_df[x2])
+    else:
+        coef, pval = spearmanr(clean_df[x1], clean_df[x2])
+
+    st.subheader(tt["result_num_num"])
+    st.write(tt["corr_coef"].format(coef))
+    st.write(tt["corr_pval"].format(pval))
+
+    if pval < 0.05:
+        st.success(tt["corr_conclude_sig"])
+    else:
+        st.warning(tt["corr_conclude_nosig"])
+    else:
+        st.info(tt["mix_info"])
 
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
 
 
