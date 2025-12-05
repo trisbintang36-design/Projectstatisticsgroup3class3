@@ -4,8 +4,9 @@ import numpy as np
 from scipy.stats import chi2_contingency, pearsonr, spearmanr
 import matplotlib.pyplot as plt
 import os
-from scipy.stats import pearsonr, spearmanr, shapiro
 import streamlit as st
+from scipy.stats import shapiro, pearsonr, spearmanr
+
 
 # --- THEME: Teknik/Engineering Blue/Yellow, Card tebal, font digital ---
 st.set_page_config(page_title="Aplikasi Analisis Data Survei", layout="wide")
@@ -458,14 +459,24 @@ elif menu == menu_items[1]:
         else:
             st.warning(tt["mix_info"])
         st.markdown("</div>", unsafe_allow_html=True)
-    else:
-        st.info(tt["wait_file"])
-        if tipe_x1 == tt["type_str"] and tipe_x2 == tt["type_str"]:
-            st.info(tt["str_info"])  
-
         elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
-                st.info(tt["num_info"]) 
+            st.info(tt["num_info"])
 
+    # drop NA
+    v1 = df[x1].dropna()
+    v2 = df[x2].dropna()
+
+    # uji normalitas
+    shapiro_p1 = shapiro(v1)[1]
+    shapiro_p2 = shapiro(v2)[1]
+
+    # pilih metode otomatis
+    if shapiro_p1 >= 0.05 and shapiro_p2 >= 0.05:
+        chosen = "pearson"
+        coef, pval = pearsonr(v1, v2)
+    else:
+        chosen = "spearman"
+        coef, pval = spearmanr(v1, v2)
 
             # ==== AUTO CORRELATION ====
             from scipy.stats import shapiro
@@ -500,6 +511,7 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
 
 
