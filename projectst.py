@@ -487,14 +487,10 @@ elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
     st.write(tt["corr_pval"].format(pval))
     st.markdown("</div>", unsafe_allow_html=True)
     st.markdown(f"{tt['conclusion']} (Metode: {method_name})")
-
     if pval < 0.05:
         st.success(tt["corr_conclude_sig"])
-    elif:
-        st.warning(tt["corr_conclude_nosig"])
     else:
-        st.warning(tt["mix_info"])
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.warning(tt["corr_conclude_nosig"])
     
         # ==== AUTO CORRELATION ====
         v1 = df[x1].dropna()
@@ -535,6 +531,7 @@ elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
             st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
         
                 
+
 
 
 
