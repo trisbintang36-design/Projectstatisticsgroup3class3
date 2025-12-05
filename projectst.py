@@ -4,6 +4,8 @@ import numpy as np
 from scipy.stats import chi2_contingency, pearsonr, spearmanr
 import matplotlib.pyplot as plt
 import os
+from scipy.stats import pearsonr, spearmanr, shapiro
+import streamlit as st
 
 # --- THEME: Teknik/Engineering Blue/Yellow, Card tebal, font digital ---
 st.set_page_config(page_title="Aplikasi Analisis Data Survei", layout="wide")
@@ -494,3 +496,4 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
