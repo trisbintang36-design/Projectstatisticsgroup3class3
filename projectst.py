@@ -336,11 +336,10 @@ if menu == menu_items[0]:
             else:
                 st.warning(f"Gambar tidak ditemukan: {img_path}")
         
-        with cols[1]:
-            st.markdown(f"<div class='stProfileName'>{prof['name'][lang]} ⚙️</div>", unsafe_allow_html=True)
-            st.markdown(f"<div class='stProfileRole'>{prof['role'][lang]}</div>", unsafe_allow_html=True)
-            st.markdown(f"**{prof['sid'][lang]}**")
-            st.markdown(f"<span class='stOrigin'>{prof['origin'][lang]}</span>", unsafe_allow_html=True)
+       st.markdown(f"<div class='stProfileName'>{prof['name'][lang]} ⚙️</div>", unsafe_allow_html=True)
+st.markdown(f"<div class='stProfileRole'>⚙️ {prof['role'][lang]}</div>", unsafe_allow_html=True)
+st.markdown(f"**{prof['sid'][lang]}**")
+st.markdown(f"<span class='stOrigin'>{prof['origin'][lang]}</span>", unsafe_allow_html=True)
 
         st.markdown("</div>", unsafe_allow_html=True)
         st.markdown("<hr>", unsafe_allow_html=True)
@@ -475,4 +474,5 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
