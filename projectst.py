@@ -454,7 +454,7 @@ elif menu == menu_items[1]:
             st.markdown(tt["conclusion"])
             if p < 0.05:
                 st.success(tt["corr_conclude_sig"])
-            else:
+            elif:
                 st.warning(tt["corr_conclude_nosig"])
             else:
                 st.warning(tt["mix_info"])
@@ -496,6 +496,7 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
 
 
