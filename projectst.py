@@ -462,3 +462,36 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
+elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
+            st.info(tt["num_info"])
+
+            # ==== AUTO CORRELATION ====
+            from scipy.stats import shapiro
+
+            # drop NA
+            v1 = df[x1].dropna()
+            v2 = df[x2].dropna()
+
+            # uji normalitas
+            shapiro_p1 = shapiro(v1)[1]
+            shapiro_p2 = shapiro(v2)[1]
+
+            # pilih metode otomatis
+            if shapiro_p1 >= 0.05 and shapiro_p2 >= 0.05:
+                chosen = "pearson"
+                coef, pval = pearsonr(v1, v2)
+            else:
+                chosen = "spearman"
+                coef, pval = spearmanr(v1, v2)
+
+            # tampilkan hasil
+            st.subheader(tt["result_num_num"])
+            st.write(f"Metode yang dipilih otomatis: *{chosen.upper()}*")
+            st.write(tt["corr_coef"].format(coef))
+            st.write(tt["corr_pval"].format(pval))
+
+            if pval < 0.05:
+                st.success(tt["corr_conclude_sig"])
+            else:
+                st.warning(tt["corr_conclude_nosig"])
