@@ -429,8 +429,7 @@ elif menu == menu_items[1]:
                 st.success(tt["conclude_sig"])
             else:
                 st.warning(tt["conclude_nosig"])
-
-            elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
+            elif : tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
                 st.info(tt["num_info"])
 
             method = st.radio(tt["corr_method_label"],
@@ -458,4 +457,5 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
