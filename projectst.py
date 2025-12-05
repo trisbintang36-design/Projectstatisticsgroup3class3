@@ -464,6 +464,10 @@ if uploaded_file:
         else:
             st.warning(tt["conclude_nosig"])
 
+# --- Pilih variabel dari dataframe ---
+x1 = st.selectbox(tt["vra_var1"], df.columns.tolist(), key="var1")
+x2 = st.selectbox(tt["vra_var2"], df.columns.tolist(), key="var2")
+
 # --- Pastikan tipe variabel sudah ditentukan ---
 tipe_x1 = "num" if pd.api.types.is_numeric_dtype(df[x1]) else "cat"
 tipe_x2 = "num" if pd.api.types.is_numeric_dtype(df[x2]) else "cat"
@@ -516,6 +520,7 @@ elif tipe_x1 != tt["type_num"] or tipe_x2 != tt["type_num"]:
 # --- File belum di-upload ---
 elif not uploaded_file:
     st.info(tt["wait_file"])
+
 
 
 
