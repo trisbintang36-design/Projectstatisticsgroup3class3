@@ -454,11 +454,11 @@ elif menu == menu_items[1]:
             st.markdown(tt["conclusion"])
             if p < 0.05:
                 st.success(tt["corr_conclude_sig"])
-            elif:
-                st.warning(tt["corr_conclude_nosig"])
             else:
-                st.warning(tt["mix_info"])
-                st.markdown("</div>", unsafe_allow_html=True)
+                st.warning(tt["corr_conclude_nosig"])
+        else:
+            st.warning(tt["mix_info"])
+            st.markdown("</div>", unsafe_allow_html=True)
             if tipe_x1 == tt["type_str"] and tipe_x2 == tt["type_str"]:
                 st.info(tt["str_info"])
             elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
@@ -496,6 +496,7 @@ elif menu == menu_items[1]:
 elif menu == menu_items[2]:
     st.markdown(f"<div class='stTitleMain'>{tt['about_title']}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='stCard'>{tt['about_content']}</div>", unsafe_allow_html=True)
+
 
 
 
