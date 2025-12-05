@@ -474,6 +474,20 @@ if uploaded_file:
         data_x1 = mask[x1]
         data_x2 = mask[x2]
 
+elif tipe_x1 == tt["type_num"] and tipe_x2 == tt["type_num"]:
+    st.info(tt["num_info"])
+
+    method_options = [tt["pearson"], tt["spearman"]]
+    corr_method = st.selectbox(tt["corr_method_label"], method_options, key="corr_method")
+
+    mask = df[[x1, x2]].dropna()
+    data_x1 = mask[x1]
+    data_x2 = mask[x2]
+
+    # --- Cek apakah data cukup untuk korelasi ---
+    if len(data_x1) < 2 or len(data_x2) < 2:
+        st.warning("Data tidak cukup untuk menghitung korelasi (minimal 2 nilai).")
+    else:
         # Hitung korelasi
         if corr_method == tt["pearson"]:
             coef, p = pearsonr(data_x1, data_x2)
@@ -499,10 +513,16 @@ if uploaded_file:
         # Tambahan: tampilkan metode yang digunakan
         st.info(f"Metode korelasi yang digunakan: **{method_name}**")
 
-    # --- Campuran / kombinasi belum didukung ---
-    else:
-        st.warning(tt["mix_info"])
-        st.markdow
+# --- Campuran / kombinasi variabel belum didukung ---
+elif tipe_x1 != tt["type_num"] or tipe_x2 != tt["type_num"]:
+    st.warning(tt["mix_info"])
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# --- File belum di-upload ---
+elif not uploaded_file:
+    st.info(tt["wait_file"])
+
+
 
 
 
